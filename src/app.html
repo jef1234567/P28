@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APP-28 – Parcours d’apprentissage ESORSEM</title>
+<meta name="theme-color" content="#1E2227">
+<script>/* Installation (PWA) : seulement en ligne, pas en file:// (Intradef) */
+if(/^https?:$/.test(location.protocol)){document.write('<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">');
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
+<style>
+:root{--rouge:#B3121F;--rouge-f:#7E0C16;--rouge-c:#F7E4E5;--argent:#8B9199;--argent-c:#E6E8EB;--encre:#1E2227;--gris:#5A6068;--papier:#FAFAF8;--blanc:#fff;--vert:#2E7D4F;--vert-c:#E3F2E8;--ambre:#A86B00;--ambre-c:#FFF4DC}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--papier);color:var(--encre);font:15px/1.5 "Segoe UI",Calibri,Arial,sans-serif}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:.2em 0 .5em}
+h2{font-size:1.5em;color:var(--rouge-f)}h3{font-size:1.1em;margin-top:1.2em}
+header{display:flex;align-items:center;gap:16px;padding:10px 20px;background:linear-gradient(90deg,var(--encre),#2C3138);color:#fff;border-bottom:4px solid var(--rouge)}
+header img{height:64px}
+header .t1{font-family:Georgia,serif;font-size:1.35em;letter-spacing:.02em}
+header .t2{font-size:.85em;color:var(--argent-c);opacity:.85}
+header .prog{margin-left:auto;text-align:right;font-size:.85em;min-width:160px}
+.bar{height:8px;background:#444b54;border-radius:4px;overflow:hidden;margin-top:4px}.bar>i{display:block;height:100%;background:var(--rouge);width:0}
+.wrap{display:flex;min-height:calc(100vh - 88px)}
+nav{width:290px;flex-shrink:0;background:var(--blanc);border-right:1px solid var(--argent-c);padding:12px 0;overflow-y:auto}
+nav .grp{font-size:.72em;text-transform:uppercase;letter-spacing:.08em;color:var(--gris);padding:12px 18px 4px;font-weight:600}
+nav a{display:flex;align-items:center;gap:8px;padding:7px 18px;color:var(--encre);text-decoration:none;font-size:.92em;border-left:3px solid transparent}
+nav a:hover{background:var(--argent-c)}
+nav a.on{background:var(--rouge-c);border-left-color:var(--rouge);font-weight:600}
+nav a.lock{color:#a8adb3;cursor:not-allowed}
+nav .st{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:inline-grid;place-items:center;font-size:11px;border:1.5px solid var(--argent)}
+nav .st.ok{background:var(--vert);border-color:var(--vert);color:#fff}
+nav .st.en{border-color:var(--rouge);color:var(--rouge)}
+nav .reu{font-style:italic}
+main{flex:1;padding:22px 34px 60px;max-width:1100px}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--argent-c);margin:14px 0 18px;flex-wrap:wrap}
+.tabs button{background:none;border:none;padding:9px 16px;font:inherit;cursor:pointer;color:var(--gris);border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on{color:var(--rouge-f);border-bottom-color:var(--rouge);font-weight:600}
+.vid{background:var(--blanc);border:1px solid var(--argent-c);border-left:4px solid var(--encre);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0}
+.vid h3{margin:0 0 8px;font-size:1em}.vid .d{font-weight:400;color:var(--gris);font-size:.85em}
+.vid video{width:100%;max-width:720px;aspect-ratio:16/9;background:#000;border-radius:6px;display:block}
+.vid .ko{display:none;color:var(--ambre);font-size:.88em;margin-top:6px}.vid.err .ko{display:block}.vid.err video{display:none}
+.vid+.vid{margin-top:8px}
+@media print{.vid{display:none}}
+.card{background:var(--blanc);border:1px solid var(--argent-c);border-radius:8px;padding:16px 20px;margin:12px 0}
+.q{font-weight:700;color:var(--rouge-f)}
+.ref{font-size:.8em;color:var(--gris);font-style:italic}
+.but{border-left:4px solid var(--rouge);background:var(--rouge-c);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.vig{border-left:4px solid var(--ambre);background:var(--ambre-c);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0}
+.vig b{color:var(--ambre)}
+ul.c{padding-left:20px;margin:.3em 0}ul.c li{margin:.2em 0}
+table{border-collapse:collapse;width:100%;margin:6px 0}
+th,td{border:1px solid var(--argent-c);padding:6px 8px;vertical-align:top;text-align:left;font-size:.92em}
+th{background:var(--encre);color:#fff;font-weight:600}
+td input,td select,td textarea{width:100%;border:1px solid transparent;background:transparent;font:inherit;padding:3px}
+td input:focus,td select:focus,td textarea:focus{border-color:var(--argent);background:#fff;outline:none}
+.fld{margin:10px 0}.fld label{display:block;font-weight:600;font-size:.92em;margin-bottom:3px}
+.fld .h{font-size:.82em;color:var(--gris);margin-bottom:3px}
+.fld input,.fld textarea,.fld select{width:100%;padding:7px 9px;border:1px solid var(--argent);border-radius:5px;font:inherit;background:#fff}
+textarea{resize:vertical;min-height:60px}
+.btn{background:var(--rouge);color:#fff;border:none;padding:8px 14px;border-radius:5px;font:inherit;cursor:pointer;font-size:.9em}
+.btn:hover{background:var(--rouge-f)}.btn.s{background:var(--argent-c);color:var(--encre)}.btn.s:hover{background:#d3d6da}
+.btn.x{background:none;color:var(--gris);padding:2px 6px}
+.rowb{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+/* frise MEDOT */
+.cycle{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.ph{background:#fff;border:1px solid var(--argent-c);border-radius:8px;overflow:hidden}
+.ph h4{margin:0;padding:8px 12px;background:var(--encre);color:#fff;font-family:Georgia,serif;font-size:.95em}
+.ph .s{display:block;padding:6px 12px;border-top:1px solid var(--argent-c);font-size:.88em;cursor:pointer;color:var(--encre);text-decoration:none}
+.ph .s:hover{background:var(--rouge-c)}
+.ph .r{background:var(--rouge);color:#fff;font-weight:600}.ph .r:hover{background:var(--rouge-f)}
+.ph .lk{color:#a8adb3;cursor:default}.ph .lk:hover{background:none}
+/* quiz */
+.qz{margin:14px 0}.qz .qq{font-weight:600;margin-bottom:6px}
+.qz .o{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--argent);border-radius:5px;padding:7px 10px;margin:4px 0;font:inherit;cursor:pointer}
+.qz .o:hover:not(:disabled){background:var(--argent-c)}
+.qz .o.good{background:var(--vert-c);border-color:var(--vert)}.qz .o.bad{background:var(--rouge-c);border-color:var(--rouge)}
+.qz .o:disabled{cursor:default;color:var(--encre);opacity:1}
+.qz .ex{font-size:.9em;padding:8px 10px;background:var(--argent-c);border-radius:5px;margin-top:4px}
+.score{font-size:1.1em;font-weight:700;padding:12px;border-radius:6px;text-align:center}
+.score.ok{background:var(--vert-c);color:var(--vert)}.score.ko{background:var(--ambre-c);color:var(--ambre)}
+/* flashcards */
+.fc{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.fcd{background:#fff;border:1px solid var(--argent-c);border-top:3px solid var(--rouge);border-radius:6px;padding:12px;min-height:110px;cursor:pointer;font-size:.9em}
+.fcd .tt{font-family:Georgia,serif;font-weight:700;font-size:1.05em;color:var(--rouge-f)}
+.fcd .df{display:none;margin-top:6px}.fcd.flip .df{display:block}.fcd.flip .hint{display:none}
+.hint{color:var(--gris);font-size:.8em;margin-top:8px}
+.chk label{display:flex;gap:8px;align-items:flex-start;padding:4px 0}
+.chk input{margin-top:4px}
+.tag{display:inline-block;font-size:.75em;padding:1px 7px;border-radius:10px;background:var(--argent-c);color:var(--gris);margin-left:6px}
+.ok-msg{color:var(--vert);font-size:.85em}.warn{color:var(--ambre);font-size:.85em}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:9}
+.modal.on{display:flex}.modal .card{max-width:760px;width:92%;max-height:85vh;overflow:auto}
+footer{font-size:.78em;color:var(--gris);padding:10px 34px;border-top:1px solid var(--argent-c);background:#fff}
+.next{margin-top:24px;display:flex;justify-content:space-between}
+@media(max-width:820px){.wrap{flex-direction:column}nav{width:100%;max-height:none;border-right:none;border-bottom:1px solid var(--argent-c)}main{padding:16px}.cycle{grid-template-columns:1fr}header img{height:44px}header .prog{display:none}}
+
+.menu{display:none;background:none;border:1px solid #6b7280;color:#fff;font-size:1.4em;border-radius:6px;padding:4px 12px;margin-left:auto;cursor:pointer}
+.demo-sw{display:block;margin-top:8px;cursor:pointer;color:#fff}
+.demo-banner{background:var(--ambre-c);border-bottom:2px solid var(--ambre);padding:10px 20px;font-size:.9em}
+.demo-banner .btn{margin-left:8px}
+.cycle-svg svg{width:100%;height:auto;display:block}
+.cycle-svg .cl{font:600 13px Georgia,serif;fill:#7E0C16}
+.cycle-svg .nt{font:600 12px "Segoe UI",Arial,sans-serif}
+.cycle-svg .nq{font:italic 11.5px "Segoe UI",Arial,sans-serif;fill:#5A6068}
+.cycle-svg .nd{cursor:pointer}
+.cycle-svg .nd.soon{opacity:.45;cursor:default}
+.cycle-svg .nd:focus{outline:none}
+.scores .sc{display:grid;grid-template-columns:minmax(120px,240px) 1fr 52px;gap:10px;align-items:center;padding:4px 0}
+.scores a{color:var(--encre);font-size:.9em}
+.sb{position:relative;height:14px;background:var(--argent-c);border-radius:7px}
+.sb i{display:block;height:100%;border-radius:7px;background:var(--ambre)}.sb i.ok{background:var(--vert)}
+.sb .th{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--encre)}
+.hbars .hb{display:grid;grid-template-columns:190px 1fr 36px;gap:10px;align-items:center;padding:3px 0;font-size:.9em}
+.hbars .hb div{background:var(--argent-c);height:16px;border-radius:4px}.hbars i{display:block;height:100%;border-radius:4px;min-width:2px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.82em;margin-bottom:8px}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+ol.tl{list-style:none;padding:0 0 0 18px;margin:8px 0;border-left:3px solid var(--argent-c)}
+ol.tl li{position:relative;padding:6px 0 6px 14px;display:flex;gap:14px;flex-wrap:wrap}
+ol.tl li::before{content:"";position:absolute;left:-27px;top:11px;width:14px;height:14px;border-radius:50%;background:var(--c);border:3px solid #fff;box-shadow:0 0 0 1px var(--c)}
+ol.tl .g{font-weight:700;min-width:110px;color:var(--rouge-f);font-variant-numeric:tabular-nums}
+ol.tl .e{flex:1;min-width:180px}
+.sync{display:grid;gap:4px;overflow-x:auto;font-size:.86em}
+.sync .lb{font-weight:700;align-self:center;font-size:.85em;color:var(--gris)}
+.sync .lb.ami{color:#1F5F99}.sync .lb.eni{color:var(--rouge-f)}
+.sync .tm{font-weight:700;text-align:center;background:var(--encre);color:#fff;border-radius:4px;padding:4px}
+.sync .blk{border-radius:5px;padding:6px 8px}
+.sync .blk.ami{background:#E3EDF7;border-left:4px solid #1F5F99}
+.sync .blk.eni{background:var(--rouge-c);border-left:4px solid var(--rouge)}
+.sync .mid{text-align:center;padding:4px;border-radius:5px;background:#fff;border:1px dashed var(--argent)}
+.sync .mid.op{border:1.5px solid var(--vert);background:var(--vert-c)}.sync .mid.op b{color:var(--vert)}
+.sync .mid.ri{border:1.5px solid var(--ambre);background:var(--ambre-c)}.sync .mid.ri b{color:var(--ambre)}
+.sync .rf{font-size:.85em;color:var(--gris)}
+details summary{cursor:pointer;color:var(--rouge-f);margin-top:10px}
+.cycle{display:none}
+@media(max-width:820px){
+ .menu{display:block}
+ .cycle-svg{display:none}.cycle{display:grid}
+ nav{display:none;position:sticky;top:0;z-index:5;max-height:75vh;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+ nav.open{display:block}
+ nav a{padding:12px 18px;min-height:44px}
+ header{flex-wrap:wrap}
+ .demo-sw{display:inline-block;margin:0 0 0 10px}
+ .scores .sc{grid-template-columns:1fr 60px;}.scores .sb{grid-column:1/-1;grid-row:2}
+ .hbars .hb{grid-template-columns:130px 1fr 30px}
+ main table{display:block;overflow-x:auto}
+ .tabs button{flex:1;padding:12px 6px}
+ .qz .o{padding:11px 12px}
+}
+
+/* ---- accessibilité / forme (audit) ---- */
+:root{--ambre:#8A5700;--vert:#256B42;--verrou:#6B7179}
+h1.t1{margin:0;font-weight:normal;font-size:1.35em}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;z-index:20;background:#fff;padding:8px;color:var(--encre)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.card>h3:first-child{margin-top:0}
+:focus-visible{outline:3px solid var(--rouge);outline-offset:2px}
+header :focus-visible{outline-color:#fff}.btn:focus-visible{outline-color:var(--encre)}
+main:focus{outline:none}
+nav a.lock,.ph .lk{color:var(--verrou)}nav .st{border-color:var(--gris)}
+td input,td select,td textarea{border:1px solid var(--argent);background:#fff;border-radius:4px;padding:5px 6px;min-height:36px}
+td input:focus,td select:focus,td textarea:focus{border-color:var(--rouge);outline:2px solid var(--rouge);outline-offset:1px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.ph .s{width:100%;text-align:left;border:none;border-top:1px solid var(--argent-c);background:none;font:inherit}
+.ph .s.r{background:var(--rouge);color:#fff}.ph .s.r:hover{background:var(--rouge-f)}.ph .s.r.lk{background:var(--argent-c);color:var(--verrou)}
+.fcd{text-align:left;font:inherit;color:inherit;width:100%;display:block}.fcd .tt,.fcd .hint{display:block}
+.btn.dk{background:var(--encre);color:#fff}.btn.dk:hover{background:#000}
+nav .grp{font-size:.8em}.tag{font-size:.8em}.hint{font-size:.85em}footer{font-size:.85em}.ref{font-size:.85em}
+header{box-shadow:0 2px 0 var(--argent)}
+.ph h4{background:linear-gradient(90deg,var(--rouge-f),var(--rouge))}
+@media(min-width:821px){nav{position:sticky;top:0;align-self:flex-start;max-height:100vh}}
+@media(hover:none){nav a:hover,.ph .s:hover,.qz .o:hover:not(:disabled),.btn.s:hover{background:inherit}}
+@media(pointer:coarse){nav a,.ph .s,.btn,.qz .o,.tabs button{min-height:44px}.btn.x{min-width:44px;min-height:44px;font-size:1.1em}input[type=checkbox]{width:22px;height:22px}.chk label{padding:8px 0;min-height:44px;align-items:center}td select,td input{min-height:44px}}
+@media(max-width:820px){
+ nav{display:block!important;position:fixed;top:0;left:0;bottom:0;width:min(86vw,320px);max-height:none;z-index:8;transform:translateX(-100%);transition:transform .2s;box-shadow:4px 0 16px #0003}
+ nav.open{transform:none}
+ body.navopen::after{content:"";position:fixed;inset:0;background:#0006;z-index:7}
+ header .prog{display:block!important;min-width:0;font-size:.75em;margin-left:0;order:3;width:100%;text-align:left}
+ header .t2{display:none}
+ main table{display:table}
+}
+@media(max-width:600px){
+ .tw thead{display:none}
+ .tw tr{display:block;border:1px solid var(--argent-c);border-radius:6px;margin:8px 0;padding:6px;background:#fff}
+ .tw td{display:block;border:none;padding:4px 2px}
+ .tw td[data-l]::before{content:attr(data-l);display:block;font-size:.8em;font-weight:600;color:var(--gris)}
+ .next{flex-direction:column}.next .btn{width:100%}
+ .tabs{flex-wrap:nowrap}.tabs button{padding:10px 4px;font-size:.88em}
+}
+@media(max-width:820px){header{padding:8px 12px;gap:10px}header img{height:40px}h1.t1{font-size:1.05em}
+ header .prog{display:flex!important;align-items:center;gap:10px;flex-wrap:wrap}header .prog .bar{flex:1;min-width:120px;margin:0}.demo-sw{margin:0!important}
+ .demo-banner{padding:8px 12px}}
+.demo-banner details{display:inline}.demo-banner summary{cursor:pointer;display:inline}
+.sync-m{display:none}
+@media(max-width:600px){.sync{display:none}.sync-m{display:block}.sync-m .sm{display:grid;gap:4px;margin-bottom:12px;font-size:.9em}.sync-m small{display:block;font-weight:700;font-size:.75em;text-transform:uppercase;color:var(--gris)}.sync-m .tm{font-weight:700;background:var(--encre);color:#fff;border-radius:4px;padding:4px 8px}.sync-m .blk{border-radius:5px;padding:6px 8px}.sync-m .blk.ami{background:#E3EDF7;border-left:4px solid #1F5F99}.sync-m .blk.eni{background:var(--rouge-c);border-left:4px solid var(--rouge)}.sync-m .mid{padding:6px;border-radius:5px;border:1px dashed var(--argent)}.sync-m .mid.op{border:1.5px solid var(--vert);background:var(--vert-c)}.sync-m .mid.ri{border:1.5px solid var(--ambre);background:var(--ambre-c)}}
+@media print{nav,header .prog,.tabs,.btn,footer{display:none}}
+/* ---- livraison 2 : phase 2, cas, examen, fiche, recherche ---- */
+.gantt{font-size:.86em}
+.gantt .gr{display:grid;grid-template-columns:minmax(110px,34%) minmax(0,1fr);gap:4px 10px;align-items:center;padding:5px 0;border-top:1px solid var(--argent-c)}
+.gantt .gr.ax{border-top:none;padding:0}
+.gantt .lbl{line-height:1.3;min-width:0;overflow-wrap:anywhere}.gantt .lbl small{display:block;color:var(--gris)}
+.gantt .trk{position:relative;height:24px;margin-right:10px;background:#F3F4F6;border-radius:4px}
+.gantt .trk .tk{position:absolute;top:0;bottom:0;width:1px;background:#D5D8DC}
+.gantt .trk .bar{position:absolute;top:4px;height:16px;border-radius:4px;min-width:6px;box-shadow:inset 0 0 0 1px #0002}
+.gantt .trk .pd{position:absolute;top:-1px;font-size:19px;line-height:1;color:#E0A800;transform:translateX(-50%);text-shadow:0 0 1px #000,0 0 2px #000}
+.gantt .trk .na{position:absolute;left:8px;top:3px;font-size:.85em;color:var(--gris);font-style:italic}
+.gantt .ticks{position:relative;height:18px;margin-right:10px;font-size:.8em;color:var(--gris);font-variant-numeric:tabular-nums}
+.gantt .ticks span{position:absolute;white-space:nowrap;transform:translateX(-50%)}
+.gantt .ticks span.f{transform:none}.gantt .ticks span.l{transform:translateX(-100%)}
+.pdk{color:#B07F00;font-weight:700}
+@media(max-width:600px){.gantt .gr{grid-template-columns:minmax(0,1fr)}.gantt .gr.ax .lbl{display:none}}
+.cmpg{display:grid;grid-template-columns:minmax(0,1fr) 62px 62px;gap:4px 6px;align-items:center;font-size:.9em}
+.cmpg .hd{font-weight:700;text-align:center;font-size:.85em;color:var(--gris)}.cmpg .hd:first-child{text-align:left}
+.cmpg .v{text-align:center;border-radius:4px;padding:4px 2px;font-weight:700}
+.v.p{background:var(--vert-c);color:var(--vert)}.v.z{background:var(--argent-c);color:var(--gris)}.v.m{background:var(--rouge-c);color:var(--rouge-f)}
+.tot{display:grid;grid-template-columns:44px minmax(0,1fr) 48px;gap:8px;align-items:center;margin:6px 0}
+.tot .trk{position:relative;height:18px;background:var(--argent-c);border-radius:4px}
+.tot .trk::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--encre)}
+.tot .trk i{position:absolute;top:0;bottom:0;border-radius:4px}
+.mame{display:grid;gap:6px;font-size:.9em}
+.mame .hd{font-weight:700;text-align:center;align-self:end;color:var(--gris)}
+.mame .rh{font-weight:700;align-self:center}
+.mame .mc{border-radius:6px;padding:8px;min-height:64px;border:1.5px solid var(--argent);background:#F3F4F6;min-width:0;overflow-wrap:anywhere}
+.mame .mc.g{background:var(--vert-c);border-color:var(--vert)}.mame .mc.a{background:var(--ambre-c);border-color:var(--ambre)}.mame .mc.r{background:var(--rouge-c);border-color:var(--rouge)}
+.mame .mc small{display:block;color:var(--gris)}
+.lg{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid #0003}
+.cor{border:2px solid var(--vert);border-radius:8px;padding:12px 16px;margin:14px 0;background:#F6FAF7}
+.cor h3{color:var(--vert);margin-top:0}.cor h4{margin:14px 0 4px;font-size:1em}
+.cor .com{border-left:4px solid var(--vert);background:#fff;padding:8px 12px;margin:8px 0}
+.cor table{background:#fff}.cor p{margin:.4em 0}
+.cas-banner[hidden],.demo-banner[hidden],#toTop[hidden]{display:none!important}
+.cas-banner{background:#E3EDF7;border-bottom:2px solid #1F5F99;padding:10px 20px;font-size:.9em;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cas-banner .btn{padding:6px 10px}.cas-banner summary{cursor:pointer}.cas-banner>span:first-child{flex:1 1 260px}
+.extop{position:sticky;top:0;z-index:4;background:var(--encre);color:#fff;padding:8px 14px;border-radius:6px;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;align-items:center;margin:8px 0}
+.extop b{font-size:1.25em;font-variant-numeric:tabular-nums}.extop.low{background:var(--rouge-f)}
+.qz .o.sel{border:2px solid var(--rouge);background:var(--rouge-c);font-weight:600}
+.err{border-left:4px solid var(--rouge);padding:8px 12px;margin:10px 0;background:#fff;border-radius:0 6px 6px 0}
+.err .ko{color:var(--rouge-f)}.err .okr{color:var(--vert)}
+.srch{padding:4px 14px 10px;border-bottom:1px solid var(--argent-c)}
+.srch input{width:100%;padding:8px 10px;border:1px solid var(--argent);border-radius:5px;font:inherit;min-height:40px}
+.srch input:focus{border-color:var(--rouge);outline:2px solid var(--rouge);outline-offset:1px}
+#sres .sg{font-size:.75em;text-transform:uppercase;letter-spacing:.06em;color:var(--gris);margin:8px 0 2px;font-weight:600}
+#sres a{display:block;padding:6px 8px;border-left:none;border-radius:4px;font-size:.88em;color:var(--encre)}
+#sres a small{display:block;color:var(--gris);font-size:.9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#sres .none{font-size:.85em;color:var(--gris);padding:4px 0}
+tr.hl td{background:var(--ambre-c)!important}.fcd.hl{box-shadow:0 0 0 3px var(--ambre)}
+.fiche{font-size:.92em}.fiche h2{margin-bottom:.2em}.fiche h3{margin:.8em 0 .2em;font-size:1em;color:var(--rouge-f)}
+.fiche ul,.fiche ol{margin:.2em 0;padding-left:20px}.fiche li{margin:.1em 0}
+@media(pointer:coarse){.srch input{min-height:44px}#sres a{min-height:44px}}
+@media print{
+ body.pfiche>*:not(#modal){display:none!important}
+ body.pfiche #modal{position:static;display:block;background:none}
+ body.pfiche #modal .card{max-width:none;width:100%;max-height:none;overflow:visible;border:none;padding:0;margin:0}
+ body.pfiche #modal .rowb,body.pfiche #ficheMsg{display:none}
+ body.pfiche .fiche{font-size:10pt;color:#000}.fiche h3{break-after:avoid}.fiche li{break-inside:avoid}
+ .cor,.card{break-inside:avoid}
+}
+/* ---- audit v2 forme ---- */
+#main h2:focus{outline:none}
+body.modal-open{overflow:hidden}
+.modal .card{padding-top:0}
+.modal .mtop{position:sticky;top:0;z-index:1;display:flex;justify-content:flex-end;background:#fff;padding:6px 0 0;margin:0 -8px 0 0}
+@media(max-width:820px){nav{visibility:hidden;box-shadow:none;transition:transform .2s,visibility 0s .2s}nav.open{visibility:visible;box-shadow:4px 0 16px #0003;transition:transform .2s}.nav-x{display:flex}}
+.nav-x{display:none;justify-content:flex-end;padding:6px 10px 0}
+.tw th.nw,.tw td.nw{width:7.5em}.tw th.del,.tw td.del{width:44px}
+td select{min-width:6em}
+tbody th[scope=row]{background:#fff;color:var(--encre);font-weight:700}
+/* 8 colonnes et plus : une fiche par ligne (la zone utile reste < 1100 px, même sur grand écran) */
+@media(min-width:601px){
+ .tw.wide thead{display:none}.tw.wide table,.tw.wide tbody{display:block}
+ .tw.wide tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-flow:dense;gap:6px 12px;border:1px solid var(--argent-c);border-radius:6px;margin:10px 0;padding:10px;background:#fff}
+ .tw.wide td{display:block;border:none;padding:0;grid-column:span 3}.tw.wide td.nw{grid-column:span 1}
+ .tw.wide td.del{grid-column:3;grid-row:1;justify-self:end}
+ .tw.wide td[data-l]::before{content:attr(data-l);display:block;font-size:.8em;font-weight:600;color:var(--gris)}}
+@media(max-width:600px){
+ .tw tr{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:dense;gap:2px 10px}
+ .tw td,.tw th[scope=row]{display:block;border:none;padding:4px 2px;grid-column:1/-1}
+ .tw td.nw{grid-column:auto}.tw td.del{grid-column:2;grid-row:1;justify-self:end;padding:0;width:auto}
+ .tw td.del .btn.x::after{content:" Supprimer";font-size:.8em}
+ input,select,textarea{font-size:16px}
+ .demo-banner{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;padding:6px 12px;font-size:.85em}
+ .demo-banner details{flex:1 1 60%}.demo-banner .btn{margin-left:auto}
+ .cas-banner{padding:6px 12px;font-size:.85em;gap:4px 8px}.cas-banner>span:first-child{flex:1 1 100%}}
+.cycle-svg .nd:hover :is(rect,polygon),.cycle-svg .nd:focus-visible :is(rect,polygon){stroke:#1E2227;stroke-width:3}
+.cycle-svg .nd:focus-visible :is(rect,polygon){stroke-dasharray:5 3}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.toc a{font-size:.85em;padding:6px 12px;border:1px solid var(--argent);border-radius:16px;color:var(--encre);text-decoration:none;background:#fff}
+.toc a:hover{background:var(--rouge-c)}
+#toTop{position:fixed;right:14px;bottom:14px;z-index:6;width:48px;height:48px;border-radius:50%;font-size:1.3em;box-shadow:0 2px 8px #0004}
+.gantt .ticks{font-size:12px;height:20px}
+.gantt .gr.ax{position:sticky;top:0;z-index:2;background:#fff;padding:4px 0;border-bottom:1px solid var(--argent-c)}
+.pdk{color:var(--ambre)}
+.sync .mid.ri,.sync-m .mid.ri{border-color:var(--rouge);background:var(--rouge-c)}.sync .mid.ri b{color:var(--rouge-f)}
+.tag.t-op{background:var(--vert-c);color:var(--vert)}.tag.t-ri{background:var(--rouge-c);color:var(--rouge-f)}
+input[type=checkbox],input[type=radio]{accent-color:var(--rouge)}
+h2 .tag{font:600 .5em/1.7 "Segoe UI",Calibri,Arial,sans-serif;vertical-align:.3em}
+.legend i.lg{width:14px;height:14px;border-radius:3px;border-width:2px;border-style:solid}
+.qz .o.sel,.qz .o.sel:hover{background:var(--rouge-c)}
+.btn.danger{background:#fff;color:var(--rouge-f);border:1.5px solid var(--rouge);margin-left:auto}.btn.danger:hover{background:var(--rouge-c)}
+.cmpg,.tot{max-width:680px}
+details.card>summary{margin-top:0}
+@media(pointer:coarse){
+ .demo-banner summary,.cas-banner summary{display:list-item;list-style-position:inside;padding:12px 0}
+ .demo-sw{display:inline-flex!important;align-items:center;gap:8px;min-height:44px}
+ .scores a{display:inline-block;padding:10px 0}.skip:focus{padding:12px 14px}
+ .toc a{min-height:40px;display:inline-flex;align-items:center}}
+@media print{.modal .mtop,.toc,#toTop{display:none}}
+.setbtn{background:none;border:1px solid currentColor;border-radius:6px;color:inherit;font-size:1.1rem;line-height:1;padding:.25rem .45rem;cursor:pointer;margin-inline-start:.5rem}.rtl #main,.rtl #nav,.rtl header .t1,.rtl header .t2,.rtl #modalBody,.rtl footer,.rtl .prog{direction:rtl;text-align:start}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header>
+  <img alt="Insigne ESORSEM" src="data:image/webp;base64,__LOGO__">
+  <div><h1 class="t1">APP-28 – Planification tactique OTAN</h1>
+  <div class="t2">ESORSEM · Parcours d’apprentissage · Niveaux 3 et 4 (brigade – GTIA)</div></div>
+  <button class="menu" id="menuBtn" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleNav()" aria-controls="nav">☰</button>
+  <div class="prog"><span id="progTxt">0 / 0 étapes validées</span><div class="bar" role="progressbar" id="progRole" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0" aria-label="Étapes validées"><i id="progBar"></i></div>
+  <label class="demo-sw"><input type="checkbox" id="demoSw"> Exemple VIENNE</label><button type="button" class="setbtn" onclick="openSettings()" aria-label="Paramètres" title="Paramètres">⚙</button></div>
+</header>
+<div id="demoBanner" class="demo-banner" role="region" aria-label="Exemple VIENNE" hidden></div>
+<div id="casBanner" class="cas-banner" role="region" aria-label="Cas concret" hidden></div>
+<div class="wrap">
+  <nav id="nav" aria-label="Étapes du parcours"><div class="nav-x"><button type="button" id="navX" class="btn s" onclick="toggleNav(false);document.getElementById('menuBtn').focus()">Fermer le menu ✕</button></div><div class="srch" role="search"><label for="srchIn" class="grp" style="display:block;padding:8px 0 4px">Rechercher</label><input id="srchIn" type="search" placeholder="Sigle, définition, étape…" autocomplete="off" aria-controls="sres" oninput="doSearch(this.value)"><div id="sres" aria-live="polite"></div></div><div id="navList"></div></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<footer>Outil pédagogique : il ne se substitue pas aux documents doctrinaux en vigueur.</footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="card" tabindex="-1">
+ <div class="mtop"><button class="btn x" aria-label="Fermer" onclick="closeModal()">✕</button></div>
+ <div id="modalBody"></div><div class="rowb"><button class="btn s" onclick="closeModal()">Fermer</button></div></div></div>
+<button id="toTop" class="btn dk" hidden aria-label="Revenir en haut de la page" onclick="scrollTo(0,0);const h=document.querySelector('#main h2');h&&(h.tabIndex=-1,h.focus({preventScroll:true}))">↑</button>
+
+<script>/*__i18n.js__*/</script>
+<script>
+/*__demo.js__*/
+/*__app28.js__*/
+
+/* ============ ÉTAT ============ */
+if(typeof DEMO_P2!=="undefined"){Object.assign(DEMO.v,DEMO_P2.v||{});Object.assign(DEMO.tab,DEMO_P2.tab||{});DEMO.tcidr.push(...(DEMO_P2.tcidr||[]));DEMO.frise.push(...(DEMO_P2.frise||[]));}
+const KEY="app28-esorsem-v1";
+let S={quiz:{},v:{},tab:{},tcidr:[],frise:[],unlock:false};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
+let DEMO_ON=false,USER=null;
+function save(){if(DEMO_ON)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const steps=M.filter(m=>m.quiz);
+const PASS=0.7;
+function done(id){const q=S.quiz[id];return q&&q.best>=PASS;}
+function unlocked(m){return !!m&&!m.soon;}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ============ NAVIGATION ============ */
+let cur="accueil",curTab="c";
+function renderNav(){let h="",g="";
+ M.forEach(m=>{if(m.grp!==g){g=m.grp;h+=`<div class="grp">${esc(g)}</div>`;}
+  const lk=!unlocked(m),st=m.quiz?(done(m.id)?'<span class="st ok">✓</span>':(S.quiz[m.id]?'<span class="st en">•</span>':'<span class="st"></span>')):(m.soon?'<span class="st">🔒</span>':'<span class="st">›</span>');
+  h+=`<a href="#${m.id}" ${m.id===cur?'aria-current="page"':""} ${lk?'aria-disabled="true"':""} class="${m.id===cur?"on":""} ${lk?"lock":""} ${m.reu?"reu":""}" data-id="${m.id}">${st}<span>${esc(m.title)}${m.soon?' <span class="tag">à venir</span>':""}</span><span class="sr">${m.quiz&&done(m.id)?" – validée":""}</span></a>`;});
+ document.getElementById("navList").innerHTML=h;
+ const n=steps.filter(s=>done(s.id)).length;
+ document.getElementById("progTxt").textContent=`${n} / ${steps.length} étapes validées`;
+ document.getElementById("progBar").style.width=(100*n/steps.length)+"%";const pr=document.getElementById("progRole");pr.setAttribute("aria-valuenow",n);pr.setAttribute("aria-valuemax",steps.length);
+ if(matchMedia("(min-width:821px)").matches){const nv=document.getElementById("nav"),a=nv.querySelector("#navList a.on");
+  if(a&&(a.offsetTop<nv.scrollTop||a.offsetTop+a.offsetHeight>nv.scrollTop+nv.clientHeight))nv.scrollTop=a.offsetTop-nv.clientHeight/3;}}
+document.getElementById("nav").addEventListener("click",e=>{const a=e.target.closest("a[data-id]");if(!a)return;e.preventDefault();const m=M.find(x=>x.id===a.dataset.id);if(!unlocked(m)){flash(m);return;}FOCUS_NEXT="#main h2";go(m.id);
+ const hl=el=>{if(!el)return;el.classList.add("hl");el.scrollIntoView({block:"center"});setTimeout(()=>el.classList.remove("hl"),2500);};
+ if(a.dataset.card!=null){const c=document.querySelectorAll(".fcd")[+a.dataset.card];if(c){c.classList.add("flip");c.setAttribute("aria-expanded","true");hl(c);c.focus();}}
+ if(a.dataset.lex!=null)hl(document.getElementById("lex_"+a.dataset.lex));
+ if(a.dataset.norme!=null){const d=document.getElementById("norme_"+a.dataset.norme);if(d){d.open=true;hl(d);}}});
+function flash(m){openModal(m&&m.soon?`<h3>${esc(m.title)}</h3><p>Ce module arrive dans une prochaine livraison.</p>`:`<h3>Module indisponible</h3><p>Ce module n’est pas encore disponible dans cette version.</p>`);}
+function go(id,tab){toggleNav(false);cur=id;curTab=tab||"c";try{history.replaceState(null,"","#"+id);}catch(e){}render();window.scrollTo(0,0);}
+
+/* ============ RENDU ============ */
+function render(){renderNav();const m=M.find(x=>x.id===cur)||M[0];const el=document.getElementById("main");
+ if(m.kind==="home")return el.innerHTML=home();
+ if(m.kind==="recap")return el.innerHTML=recap();
+ if(m.kind==="exam")return el.innerHTML=exam();
+ if(m.kind==="lex")return el.innerHTML=`<h2>Sigles</h2><p class="ref">Astuce : le champ « Rechercher » du menu cherche aussi dans les définitions et les titres d’étapes.</p><div class="tw"><table><thead><tr><th>Sigle</th><th>Signification</th></tr></thead><tbody>${LEX.map((l,i)=>`<tr id="lex_${i}"><td data-l="Sigle"><b>${l[0]}</b></td><td data-l="Signification">${esc(l[1])}</td></tr>`).join("")}</tbody></table></div>`;
+ let h=`<div class="ref">${esc(m.grp)}${m.ref?" · "+esc(m.ref):""}</div><h2>${esc(m.title)}${m.qtag?` <span class="tag">${esc(m.qtag)}</span>`:""}</h2>`;
+ h+=`<div class="tabs" role="group" aria-label="Temps de l’étape">${[["c","1 · Comprendre"],["e","2 · S’entraîner"],["a","3 · Appliquer"]].map(t=>`<button type="button" ${curTab===t[0]?'aria-current="step"':""} class="${curTab===t[0]?"on":""}" onclick="go('${m.id}','${t[0]}')">${t[1]}</button>`).join("")}</div>`;
+ if(curTab==="c")h+=comprendre(m);else if(curTab==="e")h+=quiz(m);else h+=appliquer(m);
+ const i=M.indexOf(m),nx=M.slice(i+1).find(x=>!x.soon&&!x.kind);
+ h+=`<div class="next"><span></span>${curTab!=="a"?`<button class="btn dk" onclick="go('${m.id}','${curTab==="c"?"e":"a"}')">Onglet suivant →</button>`:(nx?`<button class="btn" onclick="tryGo('${nx.id}')">Étape suivante : ${esc(nx.title)} →</button>`:"")}</div>`;
+ el.innerHTML=h;}
+function tryGo(id){const m=M.find(x=>x.id===id);if(unlocked(m)){FOCUS_NEXT="#main h2";go(id);}else flash(m);}
+
+function home(){const box=(t,items)=>`<div class="ph"><h4>${t}</h4>${items.map(([id,l,r])=>{const m=M.find(x=>x.id===id);const lk=!unlocked(m),dn=m&&m.quiz&&done(id);return `<button type="button" class="s ${r?"r":""} ${lk?"lk":""}" onclick="tryGo('${id}')" ${lk?'aria-disabled="true"':""}>${esc(l)}${dn?' <span aria-hidden="true">✓</span><span class="sr"> (validée)</span>':""}${lk?' <span class="sr">(à venir)</span>':""}</button>`;}).join("")}</div>`;
+ return `<h2>Apprendre la planification tactique OTAN (APP-28), étape par étape</h2>
+ <div class="card"><p>L’<b>APP-28</b> (<i>Tactical Planning for Land Forces</i>, édition A version 1 de 2019) décrit la méthode OTAN de planification tactique des forces terrestres. Elle conduit un état-major de la mission reçue aux ordres en <b>3 phases et 7 étapes</b> : comprendre la situation et le problème, concevoir et développer les modes d’action (COA), communiquer.</p>
+ <p><b>Par où commencer ?</b> Si tu découvres la méthode, commence par le <b>Vocabulaire</b> et les <b>Fondements</b>, puis suis les étapes dans l’ordre du cycle ci-dessous. La navigation reste libre.</p>
+ <p>Chaque étape se travaille en trois temps, dans cet ordre conseillé :</p>
+ <ul class="c"><li><b>1 · Comprendre</b> : la synthèse, avec les références des paragraphes d’APP-28 et une <b>fiche réflexe</b> à imprimer ou à copier.</li>
+ <li><b>2 · S’entraîner</b> : un test corrigé ; l’étape est validée à partir de ${PASS*100} %.</li>
+ <li><b>3 · Appliquer</b> : les gabarits de l’étape, à remplir sur un cas. Pour voir un exemple sur le thème VIENNE (33(AZ)BB, propositions à valider), active <b>« Exemple VIENNE »</b> en haut de l’écran : tes saisies ne sont pas touchées.</li></ul>
+ <p><b>Outils</b> : un examen blanc (30 questions en 30 minutes), une recherche dans les sigles et les définitions, et la vue consolidée des conclusions et de la frise. Tes saisies restent dans ce navigateur : <b>sauvegarde-les</b> (bas de page) avant de changer de poste.</p>
+ <p class="warn"><b>Source à revérifier.</b> Ce contenu a été rédigé à partir d’une copie non officielle d’APP-28 (édition A version 1, 21 novembre 2019). Il doit être vérifié sur l’exemplaire officiel. Les équivalents français des termes OTAN sont des propositions de l’outil, pas une traduction officielle.</p>
+ <p class="ref">Outil pédagogique : il ne remplace pas APP-28 ni les publications OTAN qu’elle cite (ATP-3.2.2, AJP-5, AAP-06…).</p></div>${vids("accueil")}
+ <h3>Le cycle APP-28 : 3 phases, 7 étapes</h3>
+ <div class="cycle-svg">${cycleSvg()}</div>
+ <div class="cycle">
+ ${box("Démarrer",[["vocab","Vocabulaire (pour commencer)"],["fond","Fondements (chapitre 1)"]])}
+ ${box("Phase 1 – Comprendre la situation et le problème",[["s1","1. Réception de la mission"],["s2a","2A. Analyse de l’ordre"],["s2b","2B. Évaluation des facteurs"]])}
+ ${box("Phase 2 – Concevoir et développer les COA",[["s3","3. Développement des COA"],["s4","4. Analyse des COA (wargaming)"],["s5","5. Comparaison des COA"]])}
+ ${box("Phase 3 – Communiquer",[["s6","6. Décision du chef"],["s7","7. Ordres, diffusion et transition"],["tc","Planifier en temps contraint"]])}
+ </div>
+ <div class="card"><h3>Ma progression</h3>${CHARTS.scores()}<div class="rowb"><button class="btn dk" onclick="go('exam')">Passer l’examen blanc</button>${exBestTxt()?`<span class="ref" style="align-self:center">${exBestTxt()}</span>`:""}</div></div>
+ <div class="card"><h3>Cas concret (instructeur)</h3><p>${CAS?`Cas chargé : <b>${esc(CAS.titre)}</b> – corrigé disponible pour ${Object.keys(CAS.corrige).filter(k=>M.some(m=>m.id===k)).length} étape(s).`:"L’instructeur charge un fichier de cas (.json) contenant la situation et le corrigé de chaque étape : le corrigé s’affiche alors dans l’onglet « Appliquer » de chaque étape. Il reste dans ce navigateur jusqu’à son retrait."}</p>
+ <p class="ref">Pour créer un cas : remplis les gabarits avec ta solution (ou active l’exemple VIENNE), puis « Créer un cas à partir de mes saisies ». Complète ensuite la situation et les commentaires (« texte ») dans le fichier.</p>
+ <div class="rowb"><button class="btn" onclick="document.getElementById('fCas').click()">Charger un cas (instructeur)</button><input type="file" id="fCas" accept=".json,application/json" hidden onchange="importCas(this)"><button class="btn s" onclick="exportCasForm()">Créer un cas à partir de mes saisies</button>${CAS?`<button class="btn s" onclick="showSitu()">Lire la situation</button><button class="btn s" onclick="removeCas()">Retirer le cas</button>`:""}</div><div id="casMsg" role="status"></div></div>
+ <div class="card"><h3>Sauvegarde</h3><p>Tes saisies restent dans ce navigateur. Pour changer de poste ou les rendre à l’instructeur :</p>
+ <div class="rowb"><button class="btn" onclick="exportDoc()">Exporter mes travaux (Word)</button><button class="btn s" onclick="copyAll()">Copier mes travaux</button><button class="btn s" onclick="exportJson()">Sauvegarder (fichier .json)</button><button class="btn s" onclick="document.getElementById('fImp').click()">Reprendre une sauvegarde</button><input type="file" id="fImp" accept=".json" hidden onchange="importJson(this)"><button class="btn danger" onclick="resetAll()">Tout effacer</button></div><div id="ioMsg" role="status"></div></div>`;}
+
+/* Vidéos de cours : fichiers dans le dossier videos/ placé à côté de index.html */
+const VID={};
+function vids(id){const v=VID[id];if(!v)return "";return v.map(([f,t,d])=>`<div class="vid"><h3>▶ Vidéo de cours : ${esc(t)} <span class="d">(${d})</span></h3><video controls preload="none" playsinline src="videos/${f}.mp4" onerror="this.parentNode.classList.add('err')"></video><div class="ko">Vidéo indisponible. Sur le site ou l’appli installée, il faut une connexion ; sur un poste hors ligne (Intradef), copie le dossier <b>videos</b> à côté de <b>index.html</b>.</div></div>`).join("");}
+function comprendre(m){let h=vids(m.id);
+ if(m.but)h+=`<div class="rowb" style="justify-content:flex-end"><button class="btn s" onclick="fiche('${m.id}')">Fiche réflexe</button></div>`;
+ if(m.intro)h+=`<p>${esc(m.intro)}</p>`;
+ if(m.but)h+=`<div class="but"><b>But :</b> ${esc(m.but)}</div>`;
+ if(m.cards)h+=`<div class="fc">${m.cards.map(c=>`<button type="button" class="fcd" aria-expanded="false" onclick="this.classList.toggle('flip');this.setAttribute('aria-expanded',this.classList.contains('flip'))"><span class="tt">${esc(c[0])}</span><span class="df">${esc(c[1])}</span><span class="hint">Toucher pour la définition</span></button>`).join("")}</div>`;
+ (m.sections||[]).forEach(s=>{h+=`<div class="card"><h3>${esc(s.h)}</h3>${s.p?`<p>${esc(s.p)}</p>`:""}${s.l?`<ul class="c">${s.l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</div>`;});
+ if(m.canevas)h+=`<div class="card"><h3>Canevas du briefing</h3><ol>${m.canevas.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>`;
+ if(m.normes)h+=normesFiche();
+ if(typeof NORM_LINKS!=="undefined"&&NORM_LINKS.includes(m.id))h+=`<div class="rowb"><button class="btn s" onclick="go('normes')">Voir les normes et délais</button><button class="btn s" onclick="go('normes','a')">Calculateur de délais</button></div>`;
+ if(m.vig)h+=`<div class="vig"><b>Points de vigilance</b><ul class="c">${m.vig.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+ if(m.quiz&&!m.cards&&!m.reu&&/^Phase/.test(m.grp))h+=`<p class="ref">${/^Phase 2/.test(m.grp)
+  ?"Chaque étape se termine par la mise à jour des conclusions (et de la frise, le cas échéant)."
+  :"Chaque étape se termine par la mise à jour des conclusions et de la frise chronologique."}</p>`;
+ return h;}
+
+/* ---- quiz ---- */
+let QZ={};
+function quiz(m){if(!QZ[m.id])QZ[m.id]={order:shuffle(m.quiz.map((_,i)=>i)),opt:{},ans:{}};const z=QZ[m.id];
+ let h=`<p>Réponds à chaque question : la correction s’affiche aussitôt.${S.quiz[m.id]?` Meilleur score : <b>${Math.round(S.quiz[m.id].best*100)} %</b>.`:""}</p>`;
+ z.order.forEach((qi,n)=>{const q=m.quiz[qi];if(!z.opt[qi])z.opt[qi]=shuffle(q.o.map((_,i)=>i));const a=z.ans[qi];
+  h+=`<div class="qz card"><div class="qq">${n+1}. ${esc(q.q)}</div>${z.opt[qi].map(oi=>{let c="";if(a!=null){if(oi===q.a)c="good";else if(oi===a)c="bad";}return `<button class="o ${c}" ${a!=null?"disabled":""} onclick="answer('${m.id}',${qi},${oi})">${esc(q.o[oi])}</button>`;}).join("")}${a!=null?`<div class="ex" id="qex_${qi}" role="status"><b>${a===q.a?"✔ Exact.":"✘ Inexact."}</b> ${esc(q.e)}</div>`:""}</div>`;});
+ const nb=Object.keys(z.ans).length;
+ if(nb===m.quiz.length){const ok=m.quiz.filter((q,i)=>z.ans[i]===q.a).length,r=ok/m.quiz.length;
+  h+=`<div class="score ${r>=PASS?"ok":"ko"}" role="status">${ok} / ${m.quiz.length} – ${r>=PASS?"Étape validée ✓":"Relis la synthèse et recommence"}</div><div class="rowb"><button class="btn s" onclick="QZ['${m.id}']=null;render()">Recommencer</button></div>`;}
+ return h;}
+function answer(id,qi,oi){const m=M.find(x=>x.id===id),z=QZ[id];z.ans[qi]=oi;
+ if(Object.keys(z.ans).length===m.quiz.length){const r=m.quiz.filter((q,i)=>z.ans[i]===q.a).length/m.quiz.length;const p=S.quiz[id]||{best:0};p.best=Math.max(p.best,r);p.last=r;S.quiz[id]=p;save();}
+ FOCUS_NEXT="#qex_"+qi;const y=window.scrollY;render();window.scrollTo(0,y);}
+
+/* ---- appliquer ---- */
+function appliquer(m){let h="";(m.apply||[]).forEach(b=>{
+ if(b.t==="note")h+=`<p>${esc(b.x)}</p>`;
+ if(b.t==="tiers")h+=tiers();
+ if(b.t==="dm")h+=dmBlock();
+ if(b.t==="normcalc")h+=normCalc();
+ if(b.t==="chart")h+=`<div class="card"><h3>${esc(b.l)}</h3><div data-chart="${b.k}">${CHARTS[b.k]()}</div></div>`;
+ if(b.t==="fields")h+=`<div class="card">${b.f.map(f=>fld(b.id,f)).join("")}</div>`;
+ if(b.t==="table")h+=`<div class="card">${tbl(b)}</div>`;
+ if(b.t==="canevas")h+=canevasChk(m);
+ if(b.t==="opofrago"&&typeof acOpoFrago==="function")h+=acOpoFrago();
+ if(b.t==="tcidr")h+=`<div class="card"><h3>Conclusions de l’étape</h3>${tcidrTbl(m.id)}</div>`;
+ if(b.t==="frise")h+=`<div class="card"><h3>Frise chronologique – ajouts de l’étape</h3>${friseTbl(m.id)}</div>`;
+ if(b.t==="sync")h+=`<div class="card"><h3>${esc(b.l||"Matrice de synchronisation")}</h3>${tbl(blkTab(b))}<p class="ref">GDH au format « J 06h00 », « J+1 02h00 », « J-1 18h00 ». Le point de décision (PD1, PD2…) place une étoile ★ sur le Gantt.</p></div><details class="card" ${(S.tab["sync_"+b.id]||[]).some(r=>r.d||r.f)?"open":""}><summary><b>Gantt – ${esc(b.l||"synchronisation")}</b> <span class="ref">(afficher / masquer)</span></summary><div data-chart="sync:${esc(b.id)}">${CHARTS.sync(b.id)}</div></details>`;
+ if(b.t==="cmp"){const cr=val("synv","crit");h+=`<div class="but"><b>Critères interarmes du chef (réunion de synthèse) :</b> ${cr?esc(cr).replace(/\n/g,"<br>"):`<span class="warn">non renseignés – voir l’onglet « Appliquer » de la réunion de synthèse.</span>`}</div><div class="card"><h3>Comparaison pondérée des MA</h3>${tbl(blkTab(b))}<p class="ref">Poids 1 à 3 ; note « + » (avantage), « = » (neutre), « − » (inconvénient). Total = Σ poids × (+1 / 0 / −1).</p></div><div class="card"><h3>Résultat de la comparaison</h3><div data-chart="cmp">${CHARTS.cmp()}</div></div>`;}
+ if(b.t==="mame")h+=`<div class="card"><h3>Confrontation MA × ME</h3>${tbl(blkTab(b))}</div><div class="card"><h3>Grille de confrontation</h3><div data-chart="mame">${CHARTS.mame()}</div></div>`;
+ if(b.t==="pdm")h+=`<div class="card"><h3>Plan de manœuvre</h3>${tbl(blkTab(b))}</div><div class="card"><h3>Points de décision dans le temps</h3><div data-chart="pdm">${CHARTS.pdm()}</div></div>`;});
+ h+=corrige(m);return h;}
+function val(id,k){return (S.v[id]||{})[k]||"";}
+function setv(id,k,v){(S.v[id]=S.v[id]||{})[k]=v;save();}
+function fld(id,f){const v=val(id,f.k),fid=`f_${id}_${f.k}`,ax=`id="${fid}" ${f.h?`aria-describedby="${fid}_h"`:""}`;let inp;
+ if(f.o)inp=`<select ${ax} onchange="setv('${id}','${f.k}',this.value)">${f.o.map(o=>`<option value="${esc(o)}" ${o===v?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+ else if(f.a)inp=`<textarea rows="${Math.max(2,Math.ceil(v.length/80))}" ${ax} ${f.ph?`placeholder="${esc(f.ph)}"`:""} oninput="setv('${id}','${f.k}',this.value)${f.chk?";chkBat(this)":""}">${esc(v)}</textarea>`;
+ else inp=`<input ${ax} ${f.ph?`placeholder="${esc(f.ph)}"`:""} value="${esc(v)}" oninput="setv('${id}','${f.k}',this.value)">`;
+ return `<div class="fld"><label for="${fid}">${esc(f.l)}</label>${f.h?`<div class="h" id="${fid}_h">${esc(f.h)}</div>`:""}${inp}${f.chk?`<div class="chkmsg" role="status">${batMsg(v)}</div>`:""}</div>`;}
+function batMsg(v){v=v.trim();if(!v)return "";const BAT={fr:/^(en vue d|afin d)/i,en:/^(with a view to|in order to)/i,it:/^(al fine d|allo scopo d)/i,es:/^(con vistas a|a fin de)/i,ar:/^(بهدف|من أجل)/,de:/^(um |mit dem ziel)/i};return (BAT[LANG]||BAT.fr).test(v)||BAT.fr.test(v)?'<span class="ok-msg">✓ Forme conforme (« En vue de » / « Afin de »). Vérifie qu’il est bien tourné vers le niveau supérieur.</span>':'<span class="warn">⚠ Le but à atteindre commence par « En vue de » ou « Afin de ».</span>';}
+function chkBat(t){t.parentNode.querySelector(".chkmsg").innerHTML=batMsg(t.value);}
+function tbl(b){let rows=S.tab[b.id];if(!rows){rows=b.fixed?b.fixed.map(d=>({d})):[{}];S.tab[b.id]=rows;}
+ const nc=c=>c.s||(c.o&&Math.max(...c.o.map(o=>String(o).length))<=12)?"nw":"",wide=b.cols.length>=8;
+ return `<div class="tw${wide?" wide":""}"><table><thead><tr>${b.cols.map(c=>`<th class="${nc(c)}">${esc(c.l)}</th>`).join("")}${b.fixed?"":`<th class="del"><span class="sr">Supprimer</span></th>`}</tr></thead><tbody>${rows.map((r,i)=>`<tr>${b.cols.map(c=>c.ro?`<th scope="row" data-l="${esc(c.l)}">${esc(r[c.k])}</th>`:`<td class="${nc(c)}" data-l="${esc(c.l)}">${cell(b.id,i,c,r[c.k])}</td>`).join("")}${b.fixed?"":`<td class="del"><button class="btn x" title="Supprimer" aria-label="Supprimer la ligne ${i+1}" onclick="delRow('${b.id}',${i})">✕</button></td>`}</tr>`).join("")}</tbody></table></div>${b.fixed?"":`<button class="btn s" onclick="addRow('${b.id}')">+ Ajouter une ligne</button>`}`;}
+function cell(tid,i,c,v){if(c.ro)return `<b>${esc(v)}</b>`;
+ const al=`aria-label="${esc(c.l)}, ligne ${i+1}"`,ph=c.ph&&i===0?` placeholder="${esc(c.ph)}"`:"";if(c.o)return `<select ${al} onchange="setc('${tid}',${i},'${c.k}',this.value)">${(c.o[0]===""?c.o:[""].concat(c.o)).map(o=>`<option value="${esc(o)}" ${o===v?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+ if(c.s)return `<input ${al}${ph} value="${esc(v)}" oninput="setc('${tid}',${i},'${c.k}',this.value)">`;
+ return `<textarea rows="${Math.max(2,Math.ceil(String(v||"").length/22))}" ${al}${ph} oninput="setc('${tid}',${i},'${c.k}',this.value)">${esc(v)}</textarea>`;}
+function setc(t,i,k,v){S.tab[t][i][k]=v;save();refreshCharts();}
+function addRow(t){S.tab[t].push({});save();FOCUS_NEXT=`[onclick="addRow('${t}')"]`;keep();
+ const bt=document.querySelector(`[onclick="addRow('${t}')"]`),tr=bt&&bt.previousElementSibling&&bt.previousElementSibling.querySelector("tbody tr:last-child");
+ const f=tr&&tr.querySelector("input,select,textarea");if(f)f.focus();}
+function delRow(t,i){S.tab[t].splice(i,1);save();keep();}
+function keep(){const y=window.scrollY;render();window.scrollTo(0,y);}
+function canevasChk(m){const c=(S.v["cv_"+m.id]||{});const n=m.canevas.filter((_,i)=>c[i]).length;
+ return `<div class="card chk"><h3>Je prépare mon briefing : canevas <span class="tag">${n} / ${m.canevas.length}</span></h3><p class="ref">Coche chaque rubrique dès que ta présentation la couvre.</p>${m.canevas.map((x,i)=>`<label><input type="checkbox" ${c[i]?"checked":""} onchange="setv('cv_${m.id}',${i},this.checked);keep()"> ${esc(x)}</label>`).join("")}</div>`;}
+
+/* ---- TCIDR & frise globaux ---- */
+function shortT(m){return m.title.replace(/ –.*/,"");}
+function progT(m){return m.title.replace(/^Étape (\w+) – /,"$1. ");}
+function title(id){const m=M.find(x=>x.id===id);return m?shortT(m):id;}
+function tcidrTbl(id){const L=S.tcidr.map((r,i)=>[r,i]).filter(([r])=>!id||r.src===id);
+ return (!L.length?`<p class="ref">Aucune conclusion ${id?"pour cette étape":"pour l’instant"}.</p>`:`<div class="tw"><table><thead><tr><th>Type</th><th>Libellé</th><th>Fonction de combat</th>${id?"":"<th>Origine</th>"}<th class="del"><span class="sr">Supprimer</span></th></tr></thead><tbody>${L.map(([r,i])=>`<tr><td data-l="Type"><select aria-label="Type, ligne ${i+1}" onchange="S.tcidr[${i}].y=this.value;save();refreshCharts()">${TCIDR_TYPES.map(o=>`<option value="${esc(o)}" ${o===r.y?"selected":""}>${o}</option>`).join("")}</select></td><td data-l="Libellé"><textarea rows="2" aria-label="Libellé, ligne ${i+1}" oninput="S.tcidr[${i}].l=this.value;save()">${esc(r.l)}</textarea></td><td data-l="Fonction de combat"><select aria-label="Fonction de combat, ligne ${i+1}" onchange="S.tcidr[${i}].fo=this.value;save()">${FO.map(o=>`<option value="${esc(o)}" ${o===r.fo?"selected":""}>${esc(o)}</option>`).join("")}</select></td>${id?"":`<td data-l="Origine">${esc(title(r.src))}</td>`}<td class="del"><button class="btn x" aria-label="Supprimer la ligne ${i+1}" onclick="S.tcidr.splice(${i},1);save();keep()">✕</button></td></tr>`).join("")}</tbody></table></div>`)+`${id?`<button class="btn s" onclick="S.tcidr.push({src:'${id}',y:'Tâche',fo:'Interarmes',l:''});save();keep()">+ Ajouter un TCIDR</button>`:""}`;}
+function friseTbl(id){const L=S.frise.map((r,i)=>[r,i]).filter(([r])=>!id||r.src===id);if(!id)L.sort((a,b)=>gdhCmp(a[0].g,b[0].g));
+ return (!L.length?`<p class="ref">Aucun repère ${id?"pour cette étape":"pour l’instant"}.</p>`:`<div class="tw"><table><thead><tr><th class="nw" style="width:150px">GDH / repère</th><th>Événement ou tâche</th>${id?"":"<th>Origine</th>"}<th class="del"><span class="sr">Supprimer</span></th></tr></thead><tbody>${L.map(([r,i])=>`<tr><td class="nw" data-l="GDH / repère"><input aria-label="GDH, ligne ${i+1}" value="${esc(r.g)}" oninput="S.frise[${i}].g=this.value;save();refreshCharts()"></td><td data-l="Événement"><textarea rows="1" aria-label="Événement, ligne ${i+1}" oninput="S.frise[${i}].e=this.value;save();refreshCharts()">${esc(r.e)}</textarea></td>${id?"":`<td data-l="Origine">${esc(title(r.src))}</td>`}<td class="del"><button class="btn x" aria-label="Supprimer la ligne ${i+1}" onclick="S.frise.splice(${i},1);save();keep()">✕</button></td></tr>`).join("")}</tbody></table></div>`)+`${id?`<button class="btn s" onclick="S.frise.push({src:'${id}',g:'',e:''});save();keep()">+ Ajouter un repère</button>`:""}`;}
+function recap(){const cnt=TCIDR_TYPES.map(t=>`${t} : ${S.tcidr.filter(r=>r.y===t).length}`).join(" · ");
+ return `<h2>Conclusions et frise consolidées</h2><p>Vue d’ensemble de ce que tu as produit à chaque étape (modifiable ici aussi). C’est ce tableau qui nourrit les briefings et les ordres d’avertissement.</p><div class="card"><h3>Répartition des conclusions</h3><div data-chart="tcidr">${CHARTS.tcidr()}</div><details><summary>Voir et modifier les TCIDR (${S.tcidr.length})</summary>${tcidrTbl(null)}</details></div><div class="card"><h3>Frise chronologique</h3><div data-chart="frise">${CHARTS.frise()}</div><details><summary>Modifier la frise (tableau)</summary>${friseTbl(null)}</details></div>`;}
+
+/* ---- matrice de décision APP-28 (§ 3.3.3, tableau 3-3) : rang 1 = le plus favorable, total le plus bas = COA préféré ---- */
+function dmCrit(){return (S.tab.crit||[]).filter(r=>r.c&&r.c.trim());}
+function dmBlock(){const C=dmCrit();if(!C.length)return `<div class="card"><h3>Matrice de décision</h3><p class="warn">Aucun critère d’évaluation : renseigne d’abord le tableau des critères dans l’onglet « Appliquer » de l’étape 2A.</p></div>`;
+ const v=S.v.dm||{},opt=["","1","2","3"];
+ return `<div class="card"><h3>Matrice de décision (rangs)</h3><div class="tw"><table><thead><tr><th>Critère</th><th class="nw">Poids</th>${COAS.map(c=>`<th class="nw">Rang ${c}</th>`).join("")}</tr></thead><tbody>${C.map((r,i)=>`<tr><th scope="row">${esc(r.c)}</th><td>${esc(r.w||"1")}</td>${COAS.map((c,j)=>`<td><select aria-label="Rang ${c}, ${esc(r.c)}" onchange="setv('dm','${i}_${j}',this.value);refreshCharts()">${opt.map(o=>`<option ${v[i+"_"+j]===o?"selected":""}>${o}</option>`).join("")}</select></td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="ref">Classe les COA de 1 (le plus favorable) à n pour chaque critère. Laisse vide la colonne d’un COA non étudié.</p></div><div class="card"><h3>Totaux</h3><div data-chart="dm">${CHARTS.dm()}</div></div>`;}
+/* ---- tiers-temps ---- */
+function tiers(){const v=S.v.tiers||{};return `<div class="card"><h3>Calculateur – règle du tiers / deux tiers (§ 2.2.7)</h3>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+ <div class="fld"><label for="tR">Réception de l’ordre du supérieur</label><input id="tR" type="datetime-local" value="${esc(v.r)}" oninput="setv('tiers','r',this.value);calcT()"></div>
+ <div class="fld"><label for="tC">Début de l’exécution (ou heure H)</label><input id="tC" type="datetime-local" value="${esc(v.c)}" oninput="setv('tiers','c',this.value);calcT()"></div>
+ <div class="fld"><label for="tM">Temps à déduire, facultatif (heures)</label><input id="tM" type="number" min="0" step="0.5" value="${esc(v.m)}" oninput="setv('tiers','m',this.value);calcT()"></div></div>
+ <div id="tRes" class="but" aria-live="polite">${calcTxt()}</div></div>`;}
+function calcTxt(){const v=S.v.tiers||{};if(!v.r||!v.c)return "Renseigne les deux horaires.";
+ const d=(new Date(v.c)-new Date(v.r))/36e5-(parseFloat(v.m)||0);if(isNaN(d))return "Horaires invalides.";if(d<=0)return "⚠ Aucun temps disponible : vérifie les horaires.";
+ const t=d/3,lim=new Date(new Date(v.r).getTime()+t*36e5),f=h=>`${Math.floor(h)} h ${String(Math.round((h%1)*60)).padStart(2,"0")}`;
+ return `Temps disponible : <b>${f(d)}</b> → un tiers pour notre planification : <b>${f(t)}</b>, soit diffusion de l’ordre au plus tard le <b>${lim.toLocaleString("fr-FR",{weekday:"short",day:"2-digit",hour:"2-digit",minute:"2-digit"})}</b>. Deux tiers laissés aux subordonnés : ${f(d-t)}.`;}
+function calcT(){document.getElementById("tRes").innerHTML=calcTxt();}
+
+
+/* ============ GRAPHIQUES ============ */
+function gdhKey(g){g=String(g||"").trim();const m=g.match(/^J\s*([+\-−]\s*\d+)?\s*(\d{1,2})\s*[h:]\s*(\d{2})?/i);
+ if(m){const d=m[1]?parseInt(m[1].replace(/[\s−]/g,c=>c==="−"?"-":"")):0;return d*1440+parseInt(m[2])*60+(parseInt(m[3])||0);}
+ const x=Date.parse(g);return isNaN(x)?null:x/6e4;}
+function gdhCmp(a,b){const ka=gdhKey(a),kb=gdhKey(b);if(ka!=null&&kb!=null)return ka-kb;if(ka!=null)return -1;if(kb!=null)return 1;return String(a||"").localeCompare(String(b||""));}
+const SRC_COL={prealable:"#5A6068",p1e1:"#B3121F",p1e2:"#2E7D4F",p1e3:"#7E0C16",p1e4:"#1F5F99",p1e5:"#A86B00",p2e1:"#6A3D9A",p2e2:"#0F7C80",p2e3:"#8B5A2B",p2e4:"#3B4A8C",p2e5:"#C2410C",p2e6:"#4D7C0F",dec:"#1E2227",pm:"#9D174D"};
+function refreshCharts(){document.querySelectorAll("[data-chart]").forEach(e=>{const [k,a]=e.dataset.chart.split(":"),f=CHARTS[k];if(f)e.innerHTML=f(a);});}
+const CHARTS={
+ dm(){const C=dmCrit(),v=S.v.dm||{};const T=COAS.map((c,j)=>{let u=0,w=0,n=0;C.forEach((r,i)=>{const x=parseInt(v[i+"_"+j]);if(x){u+=x;w+=x*(parseInt(r.w)||1);n++;}});return {c,u,w,n};}).filter(t=>t.n);
+  if(!T.length)return `<p class="ref">Saisis les rangs pour voir les totaux.</p>`;const mw=Math.min(...T.map(t=>t.w)),mu=Math.min(...T.map(t=>t.u));
+  return `<div class="tw"><table><thead><tr><th>COA</th><th>Total non pondéré</th><th>Total pondéré</th></tr></thead><tbody>${T.map(t=>`<tr><th scope="row">${t.c}${t.n<C.length?` <span class="ref">(${t.n}/${C.length} critères)</span>`:""}</th><td>${t.u}${t.u===mu?" ◀":""}</td><td><b>${t.w}</b>${t.w===mw?" ◀":""}</td></tr>`).join("")}</tbody></table></div><p class="ref">◀ = total le plus bas, donc COA préféré par la matrice. La matrice n’est qu’une base partielle de décision : compare aussi critère par critère (§ 3.3.3).</p>`;},
+ scores(){return `<div class="scores" role="list">${steps.map(s=>{const q=S.quiz[s.id],v=q?Math.round(q.best*100):0;return `<div class="sc" role="listitem"><a href="#${s.id}" onclick="event.preventDefault();go('${s.id}','e')">${esc(progT(s))}${q&&done(s.id)?'<span class="sr"> (validée)</span>':""}</a><div class="sb" role="img" aria-label="${v} %"><i style="width:${v}%" class="${v>=PASS*100?"ok":""}"></i><span class="th" style="left:${PASS*100}%"></span></div><b>${q?v+" %":"–"}</b></div>`;}).join("")}</div><p class="ref">Trait vertical : seuil de validation (${PASS*100} %). Clique sur une étape pour faire son test.</p>`;},
+ tcidr(){const n=TCIDR_TYPES.map(t=>S.tcidr.filter(r=>r.y===t).length),mx=Math.max(1,...n),col=["#B3121F","#5A6068","#A86B00","#1F5F99","#2E7D4F"];
+  return `<div class="hbars">${TCIDR_TYPES.map((t,i)=>`<div class="hb"><span>${t}</span><div><i style="width:${100*n[i]/mx}%;background:${col[i]}"></i></div><b>${n[i]}</b></div>`).join("")}</div>`;},
+ frise(){const L=S.frise.filter(r=>r.g||r.e).slice().sort((a,b)=>gdhCmp(a.g,b.g));if(!L.length)return `<p class="ref">Aucun repère pour l’instant : ajoute-les dans l’onglet « Appliquer » de chaque étape.</p>`;
+  const used=[...new Set(L.map(r=>r.src))];
+  return `<div class="legend">${used.map(s=>`<span><i style="background:${SRC_COL[s]||"#888"}"></i>${esc(title(s))}</span>`).join("")}</div><ol class="tl">${L.map(r=>`<li style="--c:${SRC_COL[r.src]||"#888"}"><span class="g">${esc(r.g||"?")}</span><span class="e">${esc(r.e)}</span><span class="tag" style="align-self:flex-start">${esc(title(r.src))}</span></li>`).join("")}</ol>`;},
+ conf(){const R=(S.tab.conf||[]).filter(r=>r.a||r.e);if(!R.length)return `<p class="ref">Remplis le tableau ci-dessus pour voir la confrontation se dessiner.</p>`;
+  return `<div class="sync" style="grid-template-columns:90px repeat(${R.length},minmax(150px,1fr))"><div class="lb">Temps</div>${R.map(r=>`<div class="tm">${esc(r.g)}</div>`).join("")}
+  <div class="lb ami">Ami</div>${R.map(r=>`<div class="blk ami">${esc(r.a)}</div>`).join("")}
+  <div class="lb">Bilan</div>${R.map(r=>`<div class="mid ${r.r==="Opportunité"?"op":r.r==="Risque"?"ri":""}">${r.r?`<b>${r.r==="Opportunité"?"▲ Opportunité":"▼ Risque"}</b>`:""}${r.ad?`<div>Action décisive : ${esc(r.ad)}</div>`:""}${r.rf?`<div class="rf">${esc(r.rf)}</div>`:""}</div>`).join("")}
+  <div class="lb eni">Ennemi</div>${R.map(r=>`<div class="blk eni">${esc(r.e)}</div>`).join("")}</div>
+  <div class="sync-m">${R.map(r=>`<div class="sm"><div class="tm">${esc(r.g)}</div><div class="blk ami"><small>Ami</small> ${esc(r.a)}</div><div class="mid ${r.r==="Opportunité"?"op":r.r==="Risque"?"ri":""}">${r.r?`<b>${r.r==="Opportunité"?"▲ Opportunité":"▼ Risque"}</b>`:""}${r.ad?`<div>Action décisive : ${esc(r.ad)}</div>`:""}${r.rf?`<div class="rf">${esc(r.rf)}</div>`:""}</div><div class="blk eni"><small>Ennemi</small> ${esc(r.e)}</div></div>`).join("")}</div>`;},
+ seqeni(){const R=(S.tab.seqeni||[]).filter(r=>r.g||r.a).slice().sort((a,b)=>gdhCmp(a.g,b.g));if(!R.length)return `<p class="ref">Remplis la séquence pour la voir sur la frise.</p>`;
+  return `<ol class="tl eni">${R.map(r=>`<li style="--c:#7E0C16"><span class="g">${esc(r.g)}</span><span class="e">${esc(r.a)}${r.u?` <span class="tag">${esc(r.u)}</span>`:""}</span></li>`).join("")}</ol>`;},
+ /* Gantt de synchronisation : une barre par ligne, couleur par fonction opérationnelle, ★ = point de décision */
+ sync(id){const R=(S.tab["sync_"+id]||[]).filter(r=>r.u||r.a);if(!R.length)return `<p class="ref">Remplis la matrice ci-dessus pour voir le Gantt se dessiner.</p>`;
+  const K=R.map(r=>{let a=gdhKey(r.d),b=gdhKey(r.f);if(a==null)a=b;if(b==null)b=a;if(a!=null&&b<a)[a,b]=[b,a];return {r,a,b};});
+  const all=K.filter(x=>x.a!=null).flatMap(x=>[x.a,x.b]);
+  if(!all.length)return `<p class="warn">Aucun GDH exploitable : utilise le format « J 06h00 », « J+1 02h00 »…</p>`;
+  let t0=Math.min(...all),t1=Math.max(...all);if(t1-t0<60)t1=t0+60;const sp=t1-t0;
+  const maxT=matchMedia("(max-width:600px)").matches?3:6;
+  const stH=[1,2,3,4,6,12,24,48].find(h=>sp/(h*60)<=maxT)||96,st=stH*60,pc=x=>(100*(x-t0)/sp).toFixed(2);
+  const tks=[];for(let k=Math.ceil(t0/st)*st;k<=t1;k+=st)tks.push(k);
+  const tkL=tks.map(k=>{const p=+pc(k);return `<span class="${p<7?"f":p>93?"l":""}" style="left:${p}%">${gdhLbl(k)}</span>`;}).join("");
+  const grid=tks.map(k=>`<i class="tk" style="left:${pc(k)}%"></i>`).join("");
+  K.sort((x,y)=>(x.a==null)-(y.a==null)||x.a-y.a||x.b-y.b);
+  const used=[...new Set(R.map(r=>r.fo).filter(Boolean))];
+  return `<div class="legend">${used.map(f=>`<span><i style="background:${FO_COL[f]||"#888"}"></i>${esc(f)}</span>`).join("")}<span><b class="pdk">★</b> Point de décision</span></div>
+  <div class="gantt" role="list" aria-label="Gantt de synchronisation"><div class="gr ax" aria-hidden="true"><span class="lbl"></span><div class="ticks">${tkL}</div></div>
+  ${K.map(({r,a,b})=>{const c=FO_COL[r.fo]||"#6B7179",txt=`${r.d||"?"} → ${r.f||"?"}`;
+   return `<div class="gr" role="listitem"><div class="lbl"><b>${esc(r.u)}</b> ${esc(r.a)}${r.pd?` <span class="pdk">★ ${esc(r.pd)}</span>`:""}<small>${esc(txt)}${r.ph?" · "+esc(r.ph):""}${r.fo?" · "+esc(r.fo):""}</small></div><div class="trk" aria-hidden="true">${grid}${a==null?`<span class="na">GDH à préciser</span>`:`<span class="bar" title="${esc(txt)}" style="left:${pc(a)}%;width:${Math.max(0,pc(b)-pc(a))}%;background:${c}"></span>${r.pd?`<span class="pd" style="left:${pc(b)}%">★</span>`:""}`}</div></div>`;}).join("")}</div>`;},
+ /* Comparaison pondérée */
+ cmp(){const R=(S.tab.cmp||[]).filter(r=>r.c);if(!R.length)return `<p class="ref">Saisis les critères et les notes pour voir la comparaison.</p>`;
+  const T=cmpTot(R),cls=v=>v>0?"p":v<0?"m":"z",sgn=v=>v>0?"+"+v:v<0?"−"+(-v):"0";
+  const bar=(n,t)=>{const w=Math.min(50,50*Math.abs(t)/T.max);return `<div class="tot"><b>${n}</b><div class="trk" role="img" aria-label="${n} : total ${sgn(t)} sur ${T.max} possibles"><i style="${t>=0?`left:50%`:`right:50%`};width:${w}%;background:${t>0?"var(--vert)":t<0?"var(--rouge)":"var(--argent)"}"></i></div><b>${sgn(t)}</b></div>`;};
+  return `<div class="cmpg"><span class="hd">Critère (poids)</span><span class="hd">MA1</span><span class="hd">MA2</span>${R.map(r=>{const w=parseInt(r.w)||1,v1=w*cmpS(r.s1),v2=w*cmpS(r.s2);return `<span>${esc(r.c)} <span class="tag">×${w}</span></span><span class="v ${cls(v1)}">${sgn(v1)}</span><span class="v ${cls(v2)}">${sgn(v2)}</span>`;}).join("")}</div>
+  <h4 style="margin:14px 0 4px">Totaux pondérés <span class="ref">(échelle −${T.max} … +${T.max})</span></h4>${bar("MA1",T.t1)}${bar("MA2",T.t2)}
+  <p class="${T.t1===T.t2?"warn":"ok-msg"}" role="status">${T.t1===T.t2?"Égalité : départage sur les avantages et inconvénients décisifs (critère le plus pondéré).":`${T.t1>T.t2?"MA1":"MA2"} l’emporte (${sgn(Math.max(T.t1,T.t2))} contre ${sgn(Math.min(T.t1,T.t2))}). La comparaison éclaire la décision du chef : elle ne la remplace pas.`}</p>`;},
+ /* Grille MA × ME */
+ mame(){const R=(S.tab.mame||[]).filter(r=>r.ma&&r.me);
+  const MA=[...new Set(["MA1","MA2",...R.map(r=>r.ma)])],ME=[...new Set(["ME1","ME2",...R.map(r=>r.me)])];
+  const nb=(L,k)=>L.filter(r=>String(r[k]||"").trim()).length;
+  const cellOf=(ma,me)=>{const L=R.filter(r=>r.ma===ma&&r.me===me),o=nb(L,"o"),ri=nb(L,"r"),am=nb(L,"am"),pd=L.map(r=>r.pd).filter(Boolean);
+   const c=!L.length?"":o&&!ri?"g":ri&&!o?"r":o&&ri?"a":"";
+   return `<div class="mc ${c}" role="cell"><span class="sr">${esc(ma)} face à ${esc(me)} : </span>${L.length?`<div>▲ ${o} opportunité${o>1?"s":""}</div><div>▼ ${ri} risque${ri>1?"s":""}</div>${am?`<small>${am} amendement${am>1?"s":""} au MA</small>`:""}${pd.length?`<small class="pdk">★ ${esc(pd.join(", "))}</small>`:""}`:`<small>Non confronté</small>`}</div>`;};
+  const t={o:nb(R,"o"),r:nb(R,"r"),am:nb(R,"am"),pd:nb(R,"pd")};
+  return `<div class="legend"><span><i class="lg" style="background:var(--vert-c);border-color:var(--vert)"></i>Opportunités seules</span><span><i class="lg" style="background:var(--ambre-c);border-color:var(--ambre)"></i>Opportunités et risques</span><span><i class="lg" style="background:var(--rouge-c);border-color:var(--rouge)"></i>Risques seuls</span></div>
+  <div class="mame" role="table" aria-label="Grille de confrontation MA par ME" style="grid-template-columns:52px repeat(${ME.length},minmax(0,1fr))"><div role="row" style="display:contents"><span role="columnheader"><span class="sr">MA / ME</span></span>${ME.map(e=>`<span class="hd" role="columnheader">${esc(e)}</span>`).join("")}</div>
+  ${MA.map(a=>`<div role="row" style="display:contents"><span class="rh" role="rowheader">${esc(a)}</span>${ME.map(e=>cellOf(a,e)).join("")}</div>`).join("")}</div>
+  <p class="ref">${t.o} opportunité(s) · ${t.r} risque(s) · ${t.am} amendement(s) aux MA · ${t.pd} point(s) de décision. Rappel : ce sont les MA qui sont amendés, jamais les ME.</p>`;},
+ /* Plan de manœuvre : points de décision triés dans le temps */
+ pdm(){const R=(S.tab.pdm||[]).filter(r=>r.h||r.sol).slice().sort((a,b)=>gdhCmp(a.gpd||a.g,b.gpd||b.g));if(!R.length)return `<p class="ref">Remplis le plan de manœuvre pour voir ses points de décision dans le temps.</p>`;
+  return `<div class="legend"><span><i style="background:var(--vert)"></i>▲ Opportunité</span><span><i style="background:var(--rouge)"></i>▼ Risque</span></div><ol class="tl">${R.map(r=>`<li style="--c:${r.cn==="Opportunité"?"var(--vert)":r.cn==="Risque"?"var(--rouge)":"#888"}"><span class="g">${esc(r.gpd||r.g||"?")}</span><span class="e"><b>${r.n?"PD"+esc(r.n)+" – ":""}${esc(r.h)}</b>${r.ty?` <span class="tag">${esc(r.ty)}</span>`:""}${r.cn?` <span class="tag ${r.cn==="Risque"?"t-ri":"t-op"}">${r.cn==="Risque"?"▼":"▲"} ${esc(r.cn)}</span>`:""}${r.rens?`<br><small>Renseignement : ${esc(r.rens)}</small>`:""}${r.sol?`<br>→ ${esc(r.sol)}`:""}</span></li>`).join("")}</ol>`;}
+};
+const FO_COL={"Interarmes":"#1E2227","Commandement":"#6B7179","Contact":"#B3121F","Renseignement":"#1F5F99","Appui (génie, feux, appui électronique)":"#C27C0E","Effets champs immatériels":"#6A3D9A","Appui à l’engagement":"#2E7D4F","Soutien":"#8B5A2B"};
+function gdhLbl(k){const d=Math.floor(k/1440),m=k-d*1440;return `J${d>0?"+"+d:d<0?"−"+(-d):""} ${String(Math.floor(m/60)).padStart(2,"0")}h${m%60?String(m%60).padStart(2,"0"):""}`;}
+function cmpS(v){return v==="+"?1:(v==="−"||v==="-")?-1:0;}
+function cmpTot(R){let t1=0,t2=0,mx=0;R.forEach(r=>{const w=parseInt(r.w)||1;t1+=w*cmpS(r.s1);t2+=w*cmpS(r.s2);mx+=w;});return {t1,t2,max:Math.max(1,mx)};}
+const SYNC_COLS=[{k:"u",l:"Unité"},{k:"a",l:"Action"},{k:"fo",l:"Fonction de combat",o:FO},{k:"d",l:"Début (GDH)",s:1},{k:"f",l:"Fin (GDH)",s:1},{k:"ph",l:"Phase / temps",s:1},{k:"pd",l:"Point de décision"}];
+const CMP_COLS=[{k:"c",l:"Critère"},{k:"w",l:"Poids",o:["1","2","3"]},{k:"s1",l:"Note MA1",o:["+","=","−"]},{k:"s2",l:"Note MA2",o:["+","=","−"]},{k:"a1",l:"Avantages / inconvénients MA1"},{k:"a2",l:"Avantages / inconvénients MA2"}];
+const MAME_COLS=[{k:"ma",l:"MA",o:["MA1","MA2"]},{k:"me",l:"ME",o:["ME1","ME2"]},{k:"o",l:"Opportunités"},{k:"r",l:"Risques"},{k:"am",l:"Amendements au MA"},{k:"pd",l:"Point de décision"}];
+const PDM_COLS=[{k:"n",l:"N°",s:1},{k:"g",l:"GDH",s:1},{k:"h",l:"Hypothèse"},{k:"ty",l:"Type",o:["Forces ennemies","Forces amies","Environnement"]},{k:"cn",l:"Conséquence",o:["Opportunité","Risque"]},{k:"im",l:"Impact (mission / effet majeur / MA)"},{k:"rens",l:"Renseignement à rechercher"},{k:"gpd",l:"GDH du point de décision",s:1},{k:"sol",l:"Ébauche de solution tactique"}];
+/* Bloc « apply » → description de tableau {id, cols, l} (null si le bloc n'est pas tabulaire) */
+function blkTab(b){if(b.t==="table")return b;if(b.t==="sync")return {id:"sync_"+b.id,cols:SYNC_COLS,l:b.l||"Matrice de synchronisation"};
+ if(b.t==="cmp")return {id:"cmp",cols:CMP_COLS,l:"Comparaison pondérée des MA"};if(b.t==="mame")return {id:"mame",cols:MAME_COLS,l:"Confrontation MA × ME"};
+ if(b.t==="pdm")return {id:"pdm",cols:PDM_COLS,l:"Plan de manœuvre"};return null;}
+function cycleSvg(){
+ const W=1000,rows=[
+  {y:40,lab:"Phase 1 – Comprendre la situation et le problème",n:[["s1","1. Réception de la mission","Alerter"],["s2a","2A. Analyse de l’ordre","Quoi ? Pourquoi ?"],["s2b","2B. Évaluation des facteurs","Back brief initial"]]},
+  {y:150,lab:"Phase 2 – Concevoir et développer les COA",n:[["s3","3. Développement","Comment ?"],["s4","4. Analyse","Wargaming"],["s5","5. Comparaison","Lequel ?"]]},
+  {y:275,lab:"Phase 3 – Communiquer",n:[["s6","6. Décision","COA retenu",1],["s7","7. Ordres et transition","OPORD"]]}];
+ let s=`<svg viewBox="0 0 ${W} 360" role="group" aria-label="Schéma du cycle APP-28 : phase 1 (étapes 1 et 2), phase 2 (étapes 3 à 5), phase 3 (étapes 6 et 7)"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#8B9199"/></marker></defs>`;
+ rows.forEach((r,ri)=>{const n=r.n.length,step=(W-40)/Math.max(n,4),x0=20+step/2;
+  s+=`<text x="20" y="${r.y-14}" class="cl">${r.lab}</text>`;
+  r.n.forEach(([id,l,q,reu],i)=>{const x=x0+i*step,m=M.find(z=>z.id===id),dn=m&&m.quiz&&done(id),soon=!unlocked(m);
+   if(i<n-1)s+=`<line x1="${x+step*0.42}" y1="${r.y+22}" x2="${x+step*0.58}" y2="${r.y+22}" stroke="#8B9199" stroke-width="2" marker-end="url(#ar)"/>`;
+   const fill=reu?"#B3121F":dn?"#E3F2E8":"#fff",stroke=reu?"#7E0C16":dn?"#2E7D4F":"#8B9199",tc=reu?"#fff":"#1E2227";
+   s+=`<g class="nd${soon?" soon":""}" tabindex="0" role="link" aria-label="${esc(l+(q?" – "+q:"")+(dn?" (validée)":""))}" onclick="tryGo('${id}')" onkeydown="if(event.key==='Enter')tryGo('${id}')">`;
+   s+=reu?`<polygon points="${x},${r.y-4} ${x+step*0.4},${r.y+22} ${x},${r.y+48} ${x-step*0.4},${r.y+22}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`:`<rect x="${x-step*0.4}" y="${r.y}" width="${step*0.8}" height="44" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+   const lt=tr(l),ws=lt.split(" "),two=lt.length>13&&ws.length>1,h1=two?ws.slice(0,Math.ceil(ws.length/2)).join(" "):lt,h2=two?ws.slice(Math.ceil(ws.length/2)).join(" "):"";
+   s+=`<text x="${x}" y="${r.y+(two?19:27)}" text-anchor="middle" class="nt" fill="${tc}">${esc(h1)}${two?`<tspan x="${x}" dy="14">${esc(h2)}</tspan>`:""}</text>`;
+   if(q)s+=`<text x="${x}" y="${r.y+66}" text-anchor="middle" class="nq">${esc(q)}</text>`;
+   if(dn)s+=`<text x="${x+step*0.4-8}" y="${r.y+14}" text-anchor="middle" fill="#2E7D4F" font-size="13">✓</text>`;
+   s+=`</g>`;});
+  if(ri<2){const ly=rows[ri+1].y-36;s+=`<path d="M${W-30},${r.y+22} q20,0 20,20 V${ly-10} q0,10 -10,10 H40" fill="none" stroke="#C9CDD2" stroke-dasharray="4 4"/>`;}});
+ return s+`</svg>`;}
+/* ============ EXPORT ============ */
+function buildReport(){let h=`<h1>APP-28 – Travaux du stagiaire</h1><p>Export du ${new Date().toLocaleString("fr-FR")}</p>`;
+ M.filter(m=>m.apply).forEach(m=>{let b="";
+  m.apply.forEach(x=>{if(x.t==="fields")x.f.forEach(f=>{const v=val(x.id,f.k);if(v)b+=`<p><b>${esc(f.l)}</b><br>${esc(v).replace(/\n/g,"<br>")}</p>`;});
+   const tb=blkTab(x);if(tb){const r=(S.tab[tb.id]||[]).filter(r=>tb.cols.some(c=>!c.ro&&r[c.k]));if(r.length){if(x.t!=="table")b+=`<h3>${esc(tb.l)}</h3>`;
+    if(x.t==="cmp"&&val("synv","crit"))b+=`<p><b>Critères du chef :</b> ${esc(val("synv","crit"))}</p>`;
+    b+=`<table border="1" cellpadding="4" style="border-collapse:collapse"><tr>${tb.cols.map(c=>`<th>${esc(c.l)}</th>`).join("")}</tr>${r.map(r=>`<tr>${tb.cols.map(c=>`<td>${esc(r[c.k])}</td>`).join("")}</tr>`).join("")}</table>`;
+    if(x.t==="cmp"){const T=cmpTot(r.filter(z=>z.c));b+=`<p><b>Totaux pondérés :</b> MA1 = ${T.t1} ; MA2 = ${T.t2} (échelle ±${T.max}).</p>`;}}}
+   if(x.t==="tiers"&&S.v.tiers&&S.v.tiers.r)b+=`<p><b>Tiers / deux tiers :</b> ${calcTxt().replace(/<[^>]+>/g,"")}</p>`;
+   if(x.t==="dm"&&S.v.dm&&Object.values(S.v.dm).some(Boolean))b+=`<h3>Matrice de décision</h3>${CHARTS.dm()}`;});
+  if(b)h+=`<h2>${esc(m.title)}</h2>${b}`;});
+ if(S.tcidr.length)h+=`<h2>Conclusions consolidées</h2><table border="1" cellpadding="4" style="border-collapse:collapse"><tr><th>Type</th><th>Libellé</th><th>Fonction</th><th>Origine</th></tr>${S.tcidr.map(r=>`<tr><td>${esc(r.y)}</td><td>${esc(r.l)}</td><td>${esc(r.fo)}</td><td>${esc(title(r.src))}</td></tr>`).join("")}</table>`;
+ if(S.frise.length)h+=`<h2>Frise chronologique</h2><table border="1" cellpadding="4" style="border-collapse:collapse"><tr><th>GDH</th><th>Événement</th><th>Origine</th></tr>${S.frise.slice().sort((a,b)=>gdhCmp(a.g,b.g)).map(r=>`<tr><td>${esc(r.g)}</td><td>${esc(r.e)}</td><td>${esc(title(r.src))}</td></tr>`).join("")}</table>`;
+ const q=steps.map(s=>`<tr><td>${esc(s.title)}</td><td>${S.quiz[s.id]?Math.round(S.quiz[s.id].best*100)+" %":"–"}</td></tr>`).join("");
+ h+=`<h2>Résultats aux tests</h2><table border="1" cellpadding="4" style="border-collapse:collapse"><tr><th>Étape</th><th>Meilleur score</th></tr>${q}</table>`;
+ Object.keys(EX_LBL).filter(k=>EXB[k]).forEach(k=>{h+=`<p><b>Examen blanc (${EX_LBL[k]}) – meilleur résultat :</b> ${EXB[k].best} % (${esc(EXB[k].date)})</p>`;});return h;}
+/* Téléchargement : API « downloads » de l'artefact en ligne si elle existe, sinon lien classique (hors ligne) */
+async function dl(name,type,content){if(/msword|html/.test(type))content=trHTML(content);msg("Préparation du fichier…");let api=null;
+ try{const p=window.claude&&window.claude.use?window.claude.use("downloads"):null;api=p?await Promise.race([p,new Promise(r=>setTimeout(()=>r(null),12000))]):null;}catch(e){api=null;}
+ if(api&&typeof api.save==="function"){try{await api.save({filename:name,data:content});msg(`Fichier « ${name} » enregistré.`);}catch(e){msg("Enregistrement refusé ou impossible : utilise « Copier mes travaux ».");}return;}
+ dlClassic(name,type,content);}
+function dlClassic(name,type,content){try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();msg("Fichier généré. Si rien ne se télécharge (version en ligne), utilise « Copier mes travaux ».");}catch(e){msg("Téléchargement impossible ici : utilise « Copier mes travaux ».");}}
+function exportDoc(){dl("APP28_travaux.doc","application/msword",`<html><head><meta charset="utf-8"><style>body{font-family:Calibri,Arial;font-size:11pt}h1{color:#7E0C16}h2{color:#B3121F;border-bottom:1px solid #ccc}th{background:#1E2227;color:#fff}.setbtn{background:none;border:1px solid currentColor;border-radius:6px;color:inherit;font-size:1.1rem;line-height:1;padding:.25rem .45rem;cursor:pointer;margin-inline-start:.5rem}.rtl #main,.rtl #nav,.rtl header .t1,.rtl header .t2,.rtl #modalBody,.rtl footer,.rtl .prog{direction:rtl;text-align:start}
+</style></head><body>${buildReport()}</body></html>`);}
+function exportJson(){dl("APP28_sauvegarde.json","application/json",JSON.stringify(S));}
+function importJson(inp){if(DEMO_ON)setDemo(false);const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o.quiz||!o.v)throw 0;S=Object.assign({quiz:{},v:{},tab:{},tcidr:[],frise:[]},o);USER=S;save();render();msg("Sauvegarde reprise.");}catch(e){msg("Fichier non reconnu.");}};r.readAsText(f);inp.value="";}
+async function copyAll(){const d=document.createElement("div");d.innerHTML=buildReport();trNode(d);const t=d.innerText;try{await navigator.clipboard.writeText(t);msg("Travaux copiés : colle-les dans Word.");}catch(e){openModal(`<h3>Copie manuelle</h3><p>Sélectionne le texte ci-dessous puis Ctrl+C.</p><textarea style="width:100%;height:50vh">${esc(t)}</textarea>`);}}
+function resetAll(){openModal(`<h3>Tout effacer ?</h3><p>Toutes tes saisies et tes scores seront supprimés de ce navigateur.</p><div class="rowb"><button class="btn" onclick="if(DEMO_ON)setDemo(false);S={quiz:{},v:{},tab:{},tcidr:[],frise:[],unlock:false};USER=S;save();closeModal();go('accueil')">Oui, tout effacer</button></div>`);}
+function msg(t){const e=document.getElementById("ioMsg");if(e)e.innerHTML=`<p class="ok-msg">${esc(t)}</p>`;}
+let lastFocus;function openModal(h){document.body.classList.remove("pfiche");if(!document.getElementById("modal").classList.contains("on"))lastFocus=document.activeElement;document.getElementById("modalBody").innerHTML=h;document.getElementById("modal").classList.add("on");const t=document.querySelector("#modalBody h2,#modalBody h3");if(t)t.id="modalTitle";document.body.classList.add("modal-open");document.querySelector("#modal .card").focus();}
+function closeModal(){document.body.classList.remove("modal-open");document.getElementById("modal").classList.remove("on");document.body.classList.remove("pfiche");lastFocus&&lastFocus.focus&&lastFocus.focus();}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(document.getElementById("modal").classList.contains("on"))closeModal();else if(document.body.classList.contains("navopen")){toggleNav(false);document.getElementById("menuBtn").focus();}}});
+/* piège de focus dans la fenêtre modale */
+document.getElementById("modal").addEventListener("keydown",e=>{if(e.key!=="Tab")return;
+ const f=[...e.currentTarget.querySelectorAll('a[href],button:not([disabled]),input:not([type=hidden]),select,textarea,summary,[tabindex="0"]')].filter(x=>x.offsetParent!==null);
+ if(!f.length)return;const a=f[0],z=f[f.length-1],c=document.activeElement;
+ if(e.shiftKey&&(c===a||c===e.currentTarget.querySelector(".card"))){e.preventDefault();z.focus();}
+ else if(!e.shiftKey&&c===z){e.preventDefault();a.focus();}});
+
+/* ============ CAS CONCRET (instructeur) ============ */
+const CAS_KEY="app28-esorsem-cas-v1";let CAS=null,SHOWCOR={};
+try{const r=localStorage.getItem(CAS_KEY);if(r){const o=JSON.parse(r);if(o&&o.titre&&o.corrige)CAS=o;}}catch(e){}
+function importCas(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{let o;try{o=JSON.parse(r.result);}catch(e){o=null;}
+  const cm=t=>{const e=document.getElementById("casMsg");if(e)e.innerHTML=t;};
+  if(!o||typeof o.titre!=="string"||!o.corrige||typeof o.corrige!=="object"||Array.isArray(o.corrige)){cm(`<p class="warn">Fichier de cas non reconnu : il faut au moins « titre » et « corrige » (voir docs/FORMAT_CAS.md).</p>`);return;}
+  CAS={titre:o.titre,resume:o.resume||"",situation:o.situation||"",corrige:o.corrige};SHOWCOR={};
+  let st="";try{localStorage.setItem(CAS_KEY,JSON.stringify(CAS));}catch(e){st=" (non mémorisé dans ce navigateur : il faudra le recharger à la prochaine ouverture)";}
+  const ids=Object.keys(CAS.corrige),ok=ids.filter(k=>M.some(m=>m.id===k)),ko=ids.filter(k=>!ok.includes(k));
+  renderCas();render();cm(`<p class="ok-msg">Cas « ${esc(CAS.titre)} » chargé : corrigé pour ${ok.length} étape(s)${st}.</p>${ko.length?`<p class="warn">Identifiants inconnus ignorés : ${esc(ko.join(", "))}.</p>`:""}`);};
+ r.readAsText(f);inp.value="";}
+function renderCas(){const b=document.getElementById("casBanner");if(!CAS){b.hidden=true;b.innerHTML="";return;}
+ b.hidden=false;b.innerHTML=`<span>${CAS.resume?`<details><summary><b>Cas concret : ${esc(CAS.titre)}</b> (résumé)</summary>${esc(CAS.resume)}</details>`:`<b>Cas concret : ${esc(CAS.titre)}</b>`}</span><span>${CAS.situation?`<button class="btn s" onclick="showSitu()">Lire la situation</button> `:""}<button class="btn s" onclick="removeCas()">Retirer le cas</button></span>`;}
+function showSitu(){if(!CAS)return;const t=String(CAS.situation||CAS.resume||"Aucune situation fournie.");
+ openModal(`<h3>${esc(CAS.titre)}</h3>${CAS.resume?`<div class="but">${esc(CAS.resume)}</div>`:""}${t.split(/\n{2,}/).map(p=>`<p>${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}`);}
+function removeCas(){openModal(`<h3>Retirer le cas « ${esc(CAS.titre)} » ?</h3><p>Le corrigé ne sera plus affiché. Les saisies du stagiaire ne sont pas touchées.</p><div class="rowb"><button class="btn" onclick="CAS=null;SHOWCOR={};try{localStorage.removeItem(CAS_KEY)}catch(e){};renderCas();closeModal();render()">Oui, retirer le cas</button></div>`);}
+function roTable(cols,rows){rows=(rows||[]).filter(r=>r&&typeof r==="object");if(!rows.length)return "";
+ if(!cols){const ks=[...new Set(rows.flatMap(r=>Object.keys(r)))];cols=ks.map(k=>({k,l:k}));}
+ return `<div class="tw"><table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td data-l="${esc(c.l)}">${esc(r[c.k]).replace(/\n/g,"<br>")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;}
+function corrige(m){if(!CAS)return "";
+ const c=CAS.corrige[m.id];if(!c||typeof c!=="object")return `<p class="ref">Le cas « ${esc(CAS.titre)} » ne contient pas de corrigé pour cette étape.</p>`;
+ const open=!!SHOWCOR[m.id];let h=`<div class="rowb"><button class="btn dk" aria-expanded="${open}" aria-controls="cor_${m.id}" onclick="SHOWCOR['${m.id}']=!SHOWCOR['${m.id}'];keep()">${open?"Masquer le corrigé":"Voir le corrigé"}</button></div>`;
+ if(!open)return h;
+ const V=c.v||{},T=c.tab||{},usedV=new Set(),usedT=new Set();let b="";
+ if(c.texte)b+=`<div class="com"><b>Commentaire de l’instructeur</b><br>${esc(c.texte).replace(/\n/g,"<br>")}</div>`;
+ (m.apply||[]).forEach(x=>{
+  if(x.t==="fields"&&V[x.id]){usedV.add(x.id);x.f.forEach(f=>{const v=V[x.id][f.k];if(v!=null&&v!=="")b+=`<p><b>${esc(f.l)}</b><br>${esc(v).replace(/\n/g,"<br>")}</p>`;});}
+  const tb=blkTab(x);if(tb&&T[tb.id]){usedT.add(tb.id);b+=`${tb.l?`<h4>${esc(tb.l)}</h4>`:""}${roTable(tb.cols,T[tb.id])}`;}});
+ Object.keys(V).filter(k=>!usedV.has(k)&&V[k]&&typeof V[k]==="object").forEach(k=>{b+=`<h4>${esc(k)}</h4>`+Object.entries(V[k]).map(([kk,v])=>`<p><b>${esc(kk)}</b> : ${esc(v)}</p>`).join("");});
+ Object.keys(T).filter(k=>!usedT.has(k)).forEach(k=>{b+=`<h4>${esc(k)}</h4>${roTable(null,T[k])}`;});
+ if(Array.isArray(c.tcidr)&&c.tcidr.length)b+=`<h4>Conclusions attendues</h4>${roTable([{k:"y",l:"Type"},{k:"l",l:"Libellé"},{k:"fo",l:"Fonction de combat"}],c.tcidr)}`;
+ if(Array.isArray(c.frise)&&c.frise.length)b+=`<h4>Frise – repères attendus</h4>${roTable([{k:"g",l:"GDH / repère"},{k:"e",l:"Événement ou tâche"}],c.frise.slice().sort((a,z)=>gdhCmp(a.g,z.g)))}`;
+ return h+`<section class="cor" id="cor_${m.id}" aria-label="Corrigé"><h3>Corrigé – ${esc(CAS.titre)}</h3><p class="ref">Lecture seule : compare avec tes saisies ci-dessus. Un corrigé est une solution possible, pas la seule.</p>${b||"<p>Corrigé vide.</p>"}</section>`;}
+
+/* ============ EXAMEN BLANC ============ */
+const EX_KEY="app28-esorsem-exam-v1",EX_N=30,EX_T=30*60;let EX=null,EXB=null,EXtimer=null;
+try{EXB=JSON.parse(localStorage.getItem(EX_KEY)||"null");}catch(e){EXB=null;}
+if(EXB&&typeof EXB.best==="number")EXB={tout:EXB};/* ancien format : un seul meilleur résultat */
+if(!EXB||typeof EXB!=="object")EXB={};
+/* Périmètres de l'examen : [groupe (regex sur m.grp), nombre de questions] */
+const EX_PLAN={tout:[[/^Démarrer/,8],[/^Phase 1/,8],[/^Phase 2/,8],[/^Phase 3/,6]],
+               p1:[[/^Démarrer/,12],[/^Phase 1/,18]],
+               p2:[[/^Phase 2/,18],[/^Phase 3/,12]]};
+const EX_LBL={tout:"tout le parcours",p1:"vocabulaire, fondements et phase 1",p2:"phases 2 et 3"};
+let EXS="tout";
+function exBestTxt(){return Object.keys(EX_LBL).filter(k=>EXB[k]).map(k=>`Meilleur résultat : <b>${EXB[k].best} %</b> (${EX_LBL[k]}, ${esc(EXB[k].date)})`).join(" · ");}
+/* Répartition au prorata du nombre de questions de chaque étape du groupe */
+function exAlloc(pool,n){const tot=pool.reduce((s,m)=>s+m.quiz.length,0);n=Math.min(n,tot);
+ const al=pool.map(m=>{const x=n*m.quiz.length/tot;return {m,k:Math.floor(x),r:x-Math.floor(x)};});
+ let rest=n-al.reduce((s,a)=>s+a.k,0);al.slice().sort((a,b)=>b.r-a.r).forEach(a=>{if(rest>0&&a.k<a.m.quiz.length){a.k++;rest--;}});
+ const qs=[];al.forEach(a=>shuffle(a.m.quiz.map((_,i)=>i)).slice(0,a.k).forEach(qi=>qs.push([a.m.id,qi])));return qs;}
+/* Tirage : une seule question par groupe de questions jumelles (clé g), complément tiré dans le même groupe d'étapes */
+function exPick(){const seen=new Set(),used=new Set(),qs=[];
+ const take=(mid,qi)=>{const k=mid+":"+qi,q=M.find(m=>m.id===mid).quiz[qi];if(used.has(k)||(q.g&&seen.has(q.g)))return false;
+  used.add(k);if(q.g)seen.add(q.g);qs.push({mid,qi,opt:shuffle(q.o.map((_,i)=>i))});return true;};
+ (EX_PLAN[EXS]||EX_PLAN.tout).forEach(([re,n])=>{const pool=M.filter(m=>m.quiz&&m.quiz.length&&re.test(m.grp));let k=0;
+  exAlloc(pool,n).forEach(([mid,qi])=>{if(take(mid,qi))k++;});
+  if(k<n)shuffle(pool.flatMap(m=>m.quiz.map((_,qi)=>[m.id,qi]))).forEach(([mid,qi])=>{if(k<n&&take(mid,qi))k++;});});
+ return shuffle(qs);}
+function exFmt(s){return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+function exLeft(){return Math.max(0,EX_T-Math.floor((Date.now()-EX.t0)/1000));}
+function exStart(){EX={sc:EXS,qs:exPick(),ans:{},t0:Date.now(),res:null,warned:{}};clearInterval(EXtimer);EXtimer=setInterval(exTick,1000);FOCUS_NEXT="#main h2";go("exam");}
+function exTick(){if(!EX||EX.res){clearInterval(EXtimer);return;}const l=exLeft(),e=document.getElementById("exT");
+ if(e){e.textContent=exFmt(l);e.closest(".extop").classList.toggle("low",l<=300);}
+ [300,60].forEach(w=>{if(l<=w&&!EX.warned[w]){EX.warned[w]=1;const a=document.getElementById("exA");if(a)a.textContent=`Il reste ${w/60} minute${w>60?"s":""}.`;}});
+ if(l<=0)exFinish(true);}
+function exAns(i,oi){if(!EX||EX.res)return;EX.ans[i]=oi;const q=document.getElementById("exq_"+i);
+ q.querySelectorAll(".o").forEach(b=>{const on=+b.dataset.o===oi;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);});
+ const c=document.getElementById("exC");if(c)c.textContent=Object.keys(EX.ans).length;}
+function exEnd(){const n=EX.qs.length-Object.keys(EX.ans).length;
+ if(n)openModal(`<h3>Terminer l’examen ?</h3><p>${n} question${n>1?"s":""} sans réponse ser${n>1?"ont comptées fausses":"a comptée fausse"}.</p><div class="rowb"><button class="btn" onclick="closeModal();exFinish(false)">Terminer et corriger</button></div>`);else exFinish(false);}
+function exFinish(expired){if(!EX||EX.res)return;clearInterval(EXtimer);
+ const per={};let ok=0;EX.qs.forEach((x,i)=>{const m=M.find(z=>z.id===x.mid),g=EX.ans[i]===m.quiz[x.qi].a;if(g)ok++;(per[x.mid]=per[x.mid]||{ok:0,n:0}).n++;if(g)per[x.mid].ok++;});
+ const pct=Math.round(100*ok/EX.qs.length),dur=Math.min(EX_T,Math.round((Date.now()-EX.t0)/1000)),sc=EX.sc||"tout";EX.res={ok,pct,per,expired,dur};
+ /* aucun enregistrement si aucune réponse n'a été donnée */
+ if(Object.keys(EX.ans).length&&(!EXB[sc]||pct>EXB[sc].best)){EXB[sc]={best:pct,date:new Date().toLocaleDateString("fr-FR")};try{localStorage.setItem(EX_KEY,JSON.stringify(EXB));}catch(e){}EX.res.rec=1;}
+ if(cur==="exam"){FOCUS_NEXT="#main .score";keep();window.scrollTo(0,0);}}
+function exam(){let h=`<div class="ref">Outils</div><h2>Examen blanc</h2>`;
+ if(!EX){const plan=EX_PLAN[EXS]||EX_PLAN.tout,nb=plan.reduce((s,p)=>s+p[1],0);
+  return h+`<div class="card"><div class="fld"><label for="exS">Périmètre de l’examen</label>
+ <select id="exS" onchange="EXS=this.value;keep()">
+ <option value="tout" ${EXS==="tout"?"selected":""}>Tout le parcours (8 démarrer, 8 phase 1, 8 phase 2, 6 phase 3)</option>
+ <option value="p1" ${EXS==="p1"?"selected":""}>Vocabulaire, fondements et phase 1 (12 + 18)</option>
+ <option value="p2" ${EXS==="p2"?"selected":""}>Phases 2 et 3 (18 + 12)</option></select></div>
+ <p><b>${nb} questions</b> sur ${EX_LBL[EXS]||EX_LBL.tout}, réparties entre les étapes au prorata de leur nombre de questions, en <b>${EX_T/60} minutes</b>.</p><ul class="c"><li>Aucune correction pendant l’épreuve : tu peux changer tes réponses jusqu’à la fin.</li><li>À expiration du chronomètre, la copie est corrigée automatiquement.</li><li>Correction finale : score global, résultat par étape et explication de chaque erreur.</li></ul>${exBestTxt()?`<p>${exBestTxt()}.</p>`:""}<div class="rowb"><button class="btn" onclick="exStart()">Commencer l’examen</button></div></div>`;}
+ if(EX.res){const R=EX.res,mm=Math.floor(R.dur/60);
+  h+=`<div class="score ${R.pct>=PASS*100?"ok":"ko"}" role="status" tabindex="-1">${R.ok} / ${EX.qs.length} – ${R.pct} %${R.expired?" (temps écoulé)":` en ${mm} min`}${R.rec?" – nouveau meilleur résultat":""}</div><p class="ref">Périmètre : ${EX_LBL[EX.sc]||EX_LBL.tout}.</p>`;
+  h+=`<div class="card"><h3>Résultat par étape</h3><div class="scores" role="list">${M.filter(z=>R.per[z.id]).map(z=>z.id).map(id=>{const p=R.per[id],v=Math.round(100*p.ok/p.n),m=M.find(z=>z.id===id);return `<div class="sc" role="listitem"><a href="#${id}" onclick="event.preventDefault();go('${id}','c')">${esc(progT(m))}</a><div class="sb" role="img" aria-label="${p.ok} sur ${p.n}"><i style="width:${v}%" class="${v>=PASS*100?"ok":""}"></i><span class="th" style="left:${PASS*100}%"></span></div><b>${p.ok}/${p.n}</b></div>`;}).join("")}</div><p class="ref">Clique sur une étape pour relire sa synthèse.</p></div>`;
+  const E=EX.qs.map((x,i)=>[x,i]).filter(([x,i])=>EX.ans[i]!==M.find(z=>z.id===x.mid).quiz[x.qi].a);
+  h+=`<div class="card"><h3>${E.length?`Erreurs à revoir (${E.length})`:"Aucune erreur"}</h3>${E.map(([x,i])=>{const m=M.find(z=>z.id===x.mid),q=m.quiz[x.qi],a=EX.ans[i];return `<div class="err"><div class="ref">${esc(m.title)}</div><b>${esc(q.q)}</b><div class="ko">✘ Ta réponse : ${a==null?"<i>sans réponse</i>":esc(q.o[a])}</div><div class="okr">✔ Bonne réponse : ${esc(q.o[q.a])}</div><div class="ex">${esc(q.e)}</div></div>`;}).join("")}</div>`;
+  return h+`<div class="rowb"><button class="btn" onclick="exStart()">Nouvel examen</button><button class="btn s" onclick="EX=null;keep()">Fermer</button></div>`;}
+ const l=exLeft();
+ h+=`<div class="extop${l<=300?" low":""}"><span>Temps restant <b id="exT" role="timer" aria-label="Temps restant">${exFmt(l)}</b></span><span><span id="exC">${Object.keys(EX.ans).length}</span> / ${EX.qs.length} répondues</span></div><div id="exA" class="sr" aria-live="assertive"></div>`;
+ h+=EX.qs.map((x,i)=>{const q=M.find(z=>z.id===x.mid).quiz[x.qi],a=EX.ans[i];return `<div class="qz card" id="exq_${i}" role="group" aria-labelledby="exl_${i}"><div class="qq" id="exl_${i}">${i+1}. ${esc(q.q)}</div>${x.opt.map(oi=>`<button class="o ${a===oi?"sel":""}" data-o="${oi}" aria-pressed="${a===oi}" onclick="exAns(${i},${oi})">${esc(q.o[oi])}</button>`).join("")}</div>`;}).join("");
+ return h+`<div class="rowb"><button class="btn" onclick="exEnd()">Terminer et corriger</button><button class="btn s" onclick="EX=null;clearInterval(EXtimer);keep()">Abandonner</button></div>`;}
+
+/* ============ FICHE RÉFLEXE ============ */
+function fiche(id){const m=M.find(x=>x.id===id);if(!m)return;
+ let h=`<div class="fiche"><div class="ref">${esc(m.grp)}${m.ref?" · "+esc(m.ref):""}</div><h2>${esc(m.title)}${m.qtag?` <span class="tag">${esc(m.qtag)}</span>`:""}</h2>`;
+ if(m.but)h+=`<h3>But</h3><p>${esc(m.but)}</p>`;
+ (m.sections||[]).forEach(s=>{h+=`<h3>${esc(s.h)}</h3>${s.p?`<p>${esc(s.p)}</p>`:""}${s.l?`<ul>${s.l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}`;});
+ if(m.vig)h+=`<h3>Points de vigilance</h3><ul>${m.vig.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+ if(m.canevas)h+=`<h3>Canevas du briefing</h3><ol>${m.canevas.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`;
+ h+=`<p class="ref">APP-28 – fiche réflexe</p></div>`;
+ openModal(h+`<div class="rowb"><button class="btn" onclick="printFiche()">Imprimer</button><button class="btn s" onclick="copyText(document.querySelector('#modal .fiche').innerText,'ficheMsg')">Copier</button></div><div id="ficheMsg" role="status"></div>`);
+ document.body.classList.add("pfiche");}
+function printFiche(){const e=document.getElementById("ficheMsg");if(e)e.innerHTML=`<p class="ref">Si la fenêtre d’impression ne s’ouvre pas (version en ligne), utilise « Copier » puis colle dans Word.</p>`;try{window.print();}catch(err){}}
+async function copyText(t,where){const out=h=>{const e=document.getElementById(where);if(e)e.innerHTML=h;};
+ try{await navigator.clipboard.writeText(t);out(`<p class="ok-msg">Copié : colle-le dans Word ou un message.</p>`);}
+ catch(e){out(`<p class="warn">Copie automatique bloquée : sélectionne le texte ci-dessous puis Ctrl+C.</p><textarea aria-label="Texte à copier" style="width:100%;height:30vh">${esc(t)}</textarea>`);}}
+
+/* ============ RECHERCHE ============ */
+function norm(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();}
+function doSearch(v){const out=document.getElementById("sres"),q=norm(v.trim());if(q.length<2){out.innerHTML="";return;}
+ const has=s=>norm(s).includes(q)||(LANG!=="fr"&&norm(tr(s)).includes(q)),cut=s=>{s=tr(s);return s.length>90?s.slice(0,88)+"…":s;};
+ const mods=M.filter(m=>has(m.title)||has(m.qtag)||has(m.but)).slice(0,8);
+ const voc=(M.find(m=>m.id==="vocab")||{cards:[]}).cards.map((c,i)=>[c,i]).filter(([c])=>has(c[0])||has(c[1])).slice(0,8);
+ const lex=LEX.map((l,i)=>[l,i]).filter(([l])=>has(l[0])||has(l[1])).slice(0,8);
+ const nrm=typeof NORMES==="undefined"?[]:NORMES.flatMap((s,i)=>s.rows.filter(r=>r.some(has)).map(r=>[r,i])).slice(0,8);
+ const n=mods.length+voc.length+lex.length+nrm.length;
+ out.innerHTML=!n?`<p class="none">Aucun résultat.</p>`:`<span class="sr">${n} résultat${n>1?"s":""}</span>`
+  +(mods.length?`<div class="sg">Étapes</div>${mods.map(m=>`<a href="#${m.id}" data-id="${m.id}">${esc(m.title)}${m.but?`<small>${esc(cut(m.but))}</small>`:""}</a>`).join("")}`:"")
+  +(voc.length?`<div class="sg">Définitions</div>${voc.map(([c,i])=>`<a href="#vocab" data-id="vocab" data-card="${i}">${esc(c[0])}<small>${esc(cut(c[1]))}</small></a>`).join("")}`:"")
+  +(lex.length?`<div class="sg">Sigles</div>${lex.map(([l,i])=>`<a href="#lex" data-id="lex" data-lex="${i}"><b>${esc(l[0])}</b><small>${esc(l[1])}</small></a>`).join("")}`:"")
+  +(nrm.length?`<div class="sg">Normes et délais</div>${nrm.map(([r,i])=>`<a href="#normes" data-id="normes" data-norme="${i}">${esc(r[0])}<small>${esc(cut(r.slice(1).filter(x=>x!=="–").join(" · ")))}</small></a>`).join("")}`:"");}
+
+/* ============ CRÉER UN CAS (instructeur) ============ */
+/* Fichier de cas au format docs/FORMAT_CAS.md, construit à partir des saisies affichées (les siennes ou l'exemple VIENNE) */
+function exportCasForm(){openModal(`<h3>Créer un cas à partir de mes saisies</h3><p>Le fichier reprend, comme corrigé, tout ce qui est rempli dans les onglets « Appliquer »${DEMO_ON?" (ici : l’exemple VIENNE)":""}. Tu pourras ensuite y ajouter un commentaire par étape (rubrique « texte »).</p>
+ <div class="fld"><label for="casT">Titre du cas</label><input id="casT" value="Cas d’entraînement" autocomplete="off"></div>
+ <div class="fld"><label for="casR">Résumé (une ou deux phrases, affiché dans le bandeau)</label><textarea id="casR" rows="2"></textarea></div>
+ <div class="fld"><label for="casS">Situation (texte long ; une ligne vide sépare deux paragraphes)</label><textarea id="casS" rows="6"></textarea></div>
+ <div class="rowb"><button class="btn" onclick="exportCas()">Créer le fichier</button></div><div id="casFormMsg" role="status"></div>`);}
+function casData(titre,resume,situation){const corrige={},filled=v=>v!=null&&String(v).trim()!=="";
+ M.forEach(m=>{if(!m.apply)return;const c={v:{},tab:{}};
+  m.apply.forEach(b=>{if(b.t==="fields"&&S.v[b.id]){const o={};b.f.forEach(f=>{if(filled(S.v[b.id][f.k]))o[f.k]=S.v[b.id][f.k];});if(Object.keys(o).length)c.v[b.id]=o;}
+   if(b.t==="tiers"&&S.v.tiers&&(S.v.tiers.r||S.v.tiers.c))c.v.tiers=S.v.tiers;
+   const t=blkTab(b);if(t&&S.tab[t.id]){const rows=S.tab[t.id].filter(r=>t.cols.some(cl=>!cl.ro&&filled(r[cl.k])));if(rows.length)c.tab[t.id]=rows;}});
+  const tc=S.tcidr.filter(r=>r.src===m.id&&filled(r.l)).map(({y,fo,l})=>({y,fo,l}));if(tc.length)c.tcidr=tc;
+  const fr=S.frise.filter(r=>r.src===m.id&&(filled(r.g)||filled(r.e))).map(({g,e})=>({g,e}));if(fr.length)c.frise=fr;
+  if(!Object.keys(c.v).length)delete c.v;if(!Object.keys(c.tab).length)delete c.tab;
+  if(Object.keys(c).length)corrige[m.id]=c;});
+ return {titre,resume,situation,corrige};}
+function exportCas(){const g=id=>(document.getElementById(id)||{}).value||"",titre=g("casT").trim(),out=document.getElementById("casFormMsg");
+ if(!titre){if(out)out.innerHTML=`<p class="warn">Donne un titre au cas.</p>`;return;}
+ const d=casData(titre,g("casR").trim(),g("casS").trim()),n=Object.keys(d.corrige).length;
+ if(!n){if(out)out.innerHTML=`<p class="warn">Aucune saisie à reprendre : remplis d’abord les gabarits (onglets « Appliquer »).</p>`;return;}
+ closeModal();dl("cas_"+titre.replace(/[^\wÀ-ÿ]+/g,"_").replace(/^_+|_+$/g,"")+".json","application/json",JSON.stringify(d,null,1));
+ const e=document.getElementById("casMsg");if(e)e.innerHTML=`<p class="ok-msg">Cas « ${esc(titre)} » : corrigé pour ${n} étape(s). Complète au besoin la situation et les commentaires (« texte ») dans le fichier, puis charge-le avec « Charger un cas ».</p>`;}
+
+/* ============ FOCUS, HAUTEUR DES CHAMPS, SOMMAIRE (audit forme v2) ============ */
+let FOCUS_NEXT=null;
+function focusKey(el){const m=document.getElementById("main");if(!el||el===m||!m.contains(el))return null;
+ if(el.id)return "#"+CSS.escape(el.id);
+ for(const a of ["aria-label","onclick","onchange","oninput"]){const v=el.getAttribute(a);if(v)return `${el.tagName}[${a}="${CSS.escape(v)}"]`;}
+ return null;}
+function autoH(list){const L=[...list].filter(t=>t.offsetParent!==null);L.forEach(t=>t.style.height="0px");
+ const h=L.map(t=>t.scrollHeight);L.forEach((t,i)=>t.style.height=(h[i]+2)+"px");}
+function applyToc(){if(curTab!=="a")return;const el=document.getElementById("main");if(!el.querySelector(".tabs"))return;
+ const hs=[...el.querySelectorAll(".card>h3,details.card>summary b")];if(hs.length<4)return;
+ const n=document.createElement("div");n.className="toc";n.setAttribute("role","navigation");n.setAttribute("aria-label","Sommaire de l’onglet");
+ n.innerHTML=hs.map((h,i)=>{const t=h.closest(".card");t.id="sec_"+i;h.tabIndex=-1;h.id="sech_"+i;return `<a href="#sec_${i}" onclick="event.preventDefault();const c=document.getElementById('sec_${i}'),h=document.getElementById('sech_${i}');if(c.tagName==='DETAILS')c.open=true;c.scrollIntoView();h.focus({preventScroll:true})">${esc(h.textContent.replace(/^Gantt – /,"Gantt : "))}</a>`;}).join("");
+ el.querySelector(".tabs").after(n);}
+const _render=render;
+render=function(){const k=focusKey(document.activeElement);_render();
+ autoH(document.querySelectorAll("#main textarea"));
+ applyToc();
+ let e=null;try{e=k&&document.querySelector(k);}catch(x){e=null;}if(e&&e.disabled)e=null;
+ if(!e&&FOCUS_NEXT){e=document.querySelector(FOCUS_NEXT);if(e&&!e.matches("a,button,input,select,textarea,summary,[tabindex]"))e.tabIndex=-1;}
+ FOCUS_NEXT=null;if(e)e.focus({preventScroll:true});};
+document.addEventListener("input",e=>{if(e.target.matches("#main textarea"))autoH([e.target]);});
+document.addEventListener("toggle",e=>{if(e.target.open)autoH(e.target.querySelectorAll("textarea"));},true);
+let rsz;addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(()=>{refreshCharts();autoH(document.querySelectorAll("#main textarea"));},200);});
+const toTop=document.getElementById("toTop");addEventListener("scroll",()=>{toTop.hidden=scrollY<1200;},{passive:true});
+
+/* ============ INIT ============ */
+document.addEventListener("click",e=>{if(document.body.classList.contains("navopen")&&!document.getElementById("nav").contains(e.target)&&e.target.id!=="menuBtn")toggleNav(false);});
+USER=S;const dsw=document.getElementById("demoSw");dsw.onchange=()=>setDemo(dsw.checked);
+function setDemo(on){DEMO_ON=on;dsw.checked=on;const b=document.getElementById("demoBanner");
+ if(on){USER=S;S=JSON.parse(JSON.stringify(DEMO));S.quiz=USER.quiz;b.hidden=false;b.innerHTML=`<details><summary><b>Exemple VIENNE – ${esc(DEMO_SITU.titre)}</b> (lire la situation)</summary>${esc(DEMO_SITU.situation||DEMO_SITU.resume).split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,"<br>")}</p>`).join("")}</details><i>Modifications non enregistrées.</i> <button class="btn s" onclick="setDemo(false)">Revenir à mes travaux</button>`;}
+ else{S=USER;b.hidden=true;}
+ QZ={};render();}
+function toggleNav(f){const n=document.getElementById("nav"),o=f===undefined?!n.classList.contains("open"):f;n.classList.toggle("open",o);document.body.classList.toggle("navopen",o);document.getElementById("menuBtn").setAttribute("aria-expanded",o);if(o)setTimeout(()=>document.getElementById("navX").focus(),60);}
+function fromHash(){const h=(location.hash||"").slice(1);const m=M.find(x=>x.id===h);if(m&&unlocked(m)){cur=h;curTab="c";}render();}
+window.addEventListener("hashchange",fromHash);renderCas();fromHash();
+</script>
+</body>
+</html>

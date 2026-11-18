@@ -1,0 +1,29 @@
+{
+  "name": "P28 – Parcours d’apprentissage APP-28 (OTAN)",
+  "short_name": "P28",
+  "description": "Apprendre la planification tactique OTAN APP-28 étape par étape (niveaux 3 et 4, brigade – GTIA).",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAFAF8",
+  "theme_color": "#1E2227",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
